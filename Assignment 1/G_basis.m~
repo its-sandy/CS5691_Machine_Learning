@@ -9,7 +9,7 @@ N = size(X, 1);
 d = size(X, 2);
 [means, covs, ~] = k_means(X,k);
 phi = get_gaussian_design_matrix(X, k, means, covs);
-phi_tilda = get_gaussian_design_matrix(means, k, means, covs); %k*k
+phi_tilda = get_gaussian_design_matrix(means, k, means, covs);
 
-w = pinv(phi'*phi + lambda*phi_tilda)*(phi')*Y;
+w = pinv(phi)*Y;
 scatter3(X(:, 1), X(:, 2), Y, 'b'); hold on; scatter3(X(:, 1), X(:, 2), phi*w, 'r')
