@@ -1,4 +1,4 @@
-rng(4);
+rng(5);
 bN=25;
 bM=1;
 bL=1e-2;
@@ -18,6 +18,7 @@ for N = [20,40,100]
     ctr = 1;
     i1=0;
     figure('Name', sprintf('Polynomial Curve Fitting %d',N), 'NumberTitle', 'off');
+    legend({'y = sin(x)','y = cos(x)'},'Location','southwest')
     for lambda = [1e-2,1e-5,1e-10]
         i1=i1+1;
         i2=0;
@@ -25,13 +26,13 @@ for N = [20,40,100]
             i2=i2+1;
             phi = zeros(7*N/10, M+1);
             phi2 = zeros(2*N/10, M+1);
-            %phi3 = zeros(N/10, M+1);
+            phi3 = zeros(N/10, M+1);
             a = zeros(M+1, M+1);
 
             for i=1:M+1
                 phi(:,i) = X.^(i-1);
                 phi2(:,i) = X2.^(i-1);
-                %phi3(:,i) = X3.^(i-1);
+                phi3(:,i) = X3.^(i-1);
                 for j=1:M+1
                     a(i,j) = sum(X.^(i+j-2));
                 end
@@ -51,14 +52,15 @@ for N = [20,40,100]
             if N==100
                 newerrtrn=(lambda*w'*w+sum((phi*w)-Y).^2);
                 newerrtst=(lambda*w'*w+sum((phi2*w)-Y2).^2);  
-                %newerrval=(lambda*w'*w+sum((phi3*w)-Y3).^2);
+                newerrval=(lambda*w'*w+sum((phi3*w)-Y3).^2);
                 
                 Ermstrain(i1,i2)=sqrt(newerrtrn/100);
                 Ermstest(i1,i2)=sqrt(newerrtst/100);
-                
                 %Erms(i,j)=sqrt(2*newerr/100);
+                
                 if newerrtst < err
                     err=newerrtst;
+                    berr=newerrval;
                     bM=M;
                     bL=lambda;
                     btrainX=X;
@@ -68,7 +70,6 @@ for N = [20,40,100]
                     btestX=X2;
                     btestY=Y2;
                     bw=w;
-                    %berr=newerrval;
                 end
             end
             
@@ -77,17 +78,11 @@ for N = [20,40,100]
     end
 end
 
-X = sort(rand(10, 1));
-Y = awgn(exp(sin(2*pi*X)), 10);
-phi = zeros(10, bM+1);
-for i=1:bM+1
-    phi(:,i) = X.^(i-1);
-end
-err=(bL*bw'*bw+sum((phi*bw)-Y).^2)/2
 figure('Name', sprintf('Polynomial Curve Train Fitting %d %d %d',N,bM,bL), 'NumberTitle', 'off');
-plot(btrainY, bphi*bw, 'ko'); hold on
+plot(btrainY, bphi*bw, 'ko');
+
 figure('Name', sprintf('Polynomial Curve Test Fitting %d %d %d',N,bM,bL), 'NumberTitle', 'off');
-plot(btestY, bphi2*bw, 'ro'); hold on
+plot(btestY, bphi2*bw, 'ro');
 berr
 Ermstest
 Ermstrain

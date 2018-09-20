@@ -18,6 +18,7 @@ for N = [20,40,100]
     ctr = 1;
     i1=0;
     figure('Name', sprintf('Polynomial Curve Fitting %d',N), 'NumberTitle', 'off');
+    
     for lambda = [1e-2,1e-5,1e-10]
         i1=i1+1;
         i2=0;
@@ -78,9 +79,13 @@ for N = [20,40,100]
 end
 
 figure('Name', sprintf('Polynomial Curve Train Fitting %d %d %d',N,bM,bL), 'NumberTitle', 'off');
-plot(btrainY, bphi*bw, 'ko'); hold on
+plot(btrainY, bphi*bw, 'ko');
+xlabel('Target Output') 
+ylabel('Model Output')
 figure('Name', sprintf('Polynomial Curve Test Fitting %d %d %d',N,bM,bL), 'NumberTitle', 'off');
-plot(btestY, bphi2*bw, 'ro'); hold on
+plot(btestY, bphi2*bw, 'ro');
+xlabel('Target Output') 
+ylabel('Model Output')
 berr
 Ermstest
 Ermstrain
