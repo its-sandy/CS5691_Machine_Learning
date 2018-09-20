@@ -1,5 +1,6 @@
 rng(0);
 ds = table2array(readtable('Team21-Team30/team30/bivariate_group30/bivariateData/train.txt'));
+%ds = ds(1:100,:);
 k = 50;
 var = 500;
 lambda = 0.001;
@@ -33,12 +34,27 @@ RMSE(Y_test, phi_test*w)
 RMSE(Y_validation, phi_validation*w)
 
 get_roughness(w, phi_tilda, lambda)
-scatter3(X_train(:, 1), X_train(:, 2), Y_train, 'b'); hold on; %scatter3(X_train(:, 1), X_train(:, 2), phi*w, 'r');
+
+figure('Name', sprintf('Gaussian Curve Fitting %d',N), 'NumberTitle', 'off');
+subplot(1,2,1);
+title(sprintf("1"));
+
+scatter3(X_train(:, 1), X_train(:, 2), Y_train, 'r'); hold on; %scatter3(X_train(:, 1), X_train(:, 2), phi*w, 'r');
 
 [x1surf,x2surf] = meshgrid(-10:0.25:10, -10:0.25:10);
 Xsurf = horzcat(reshape(x1surf,81*81,1), reshape(x2surf,81*81,1));
 phisurf = get_gaussian_design_matrix(Xsurf, k, means, covs);
-surf(x1surf, x2surf, reshape(phisurf*w,81,81), 'FaceAlpha', 0.5)
+surfplot = surf(x1surf, x2surf, reshape(phisurf*w,81,81), 'FaceAlpha', 0.7);
+surfplot.EdgeColor = 'none';
 
 
+subplot(1,2,2);
+title(sprintf("2"));
 
+scatter3(X_train(:, 1), X_train(:, 2), Y_train, 'r'); hold on; %scatter3(X_train(:, 1), X_train(:, 2), phi*w, 'r');
+
+[x1surf,x2surf] = meshgrid(-10:0.25:10, -10:0.25:10);
+Xsurf = horzcat(reshape(x1surf,81*81,1), reshape(x2surf,81*81,1));
+phisurf = get_gaussian_design_matrix(Xsurf, k, means, covs);
+surfplot = surf(x1surf, x2surf, reshape(phisurf*w,81,81), 'FaceAlpha', 0.7);
+surfplot.EdgeColor = 'none';
