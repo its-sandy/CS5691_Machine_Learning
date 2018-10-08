@@ -1,0 +1,53 @@
+g1 data size - k=18, var = 500, lambda = 0.001
+
+complexity k = 1,4,10,100;var = 500;lambda = 0.001;
+
+lambda = 0.0001, 0.01, 1, 100
+
+model 1 = phitilda is identity
+these are for gaussian
+
+----------
+
+datasize m-2, lambda = 0.5
+complexity m-1,2,4,8 lambda = 0.5
+lamda = 0.01, 0.1, 1, 10, m = 2 ... used 100 point dataset (give reason)
+
+------
+g1 scatter
+k = 400
+var = 500
+lambda = 0.0000001
+
+ans =
+
+    5.2512
+
+
+ans =
+
+    5.0943
+
+
+ans =
+
+    5.2726
+---------------------
+g2 scatter
+k = 350;
+var = 1000;
+lambda = 0.00001;
+
+ans =
+
+    5.2510
+
+
+ans =
+
+    5.1051
+
+
+ans =
+
+    5.2459
