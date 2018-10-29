@@ -109,11 +109,11 @@ for i = val_ind1
     p5 = log(ccprob(5));
     
     for j = 1:size(X_1{i},1)
-         p1 = p1 + log(evalGMM(X_1{i}(j, :), w1, mu1, C1));
-         p2 = p2 + log(evalGMM(X_1{i}(j, :), w2, mu2, C2));
-         p3 = p3 + log(evalGMM(X_1{i}(j, :), w3, mu3, C3));
-         p4 = p4 + log(evalGMM(X_1{i}(j, :), w4, mu4, C4));
-         p5 = p5 + log(evalGMM(X_1{i}(j, :), w5, mu5, C5));
+         p1 = p1 + log(evalGMM(X_1{i}(j, :), w1, mu1, C1);
+         p2 = p2 + log(evalGMM(X_1{i}(j, :), w2, mu2, C2);
+         p3 = p3 + log(evalGMM(X_1{i}(j, :), w3, mu3, C3);
+         p4 = p4 + log(evalGMM(X_1{i}(j, :), w4, mu4, C4);
+         p5 = p5 + evalGMM(X_1{i}(j, :), w5, mu5, C5);
     end
     
     if max([p1 p2 p3 p4 p5])==p1
@@ -137,11 +137,11 @@ for i = val_ind2
     p5 = log(ccprob(5));
     
     for j = 1:size(X_2{i},1)
-         p1 = p1 + log(evalGMM(X_2{i}(j, :), w1, mu1, C1));
-         p2 = p2 + log(evalGMM(X_2{i}(j, :), w2, mu2, C2));
-         p3 = p3 + log(evalGMM(X_2{i}(j, :), w3, mu3, C3));
-         p4 = p4 + log(evalGMM(X_2{i}(j, :), w4, mu4, C4));
-         p5 = p5 + log(evalGMM(X_2{i}(j, :), w5, mu5, C5));
+         p1 = p1 + evalGMM(X_2{i}(j, :), w1, mu1, C1);
+         p2 = p2 + evalGMM(X_2{i}(j, :), w2, mu2, C2);
+         p3 = p3 + evalGMM(X_2{i}(j, :), w3, mu3, C3);
+         p4 = p4 + evalGMM(X_2{i}(j, :), w4, mu4, C4);
+         p5 = p5 + evalGMM(X_2{i}(j, :), w5, mu5, C5);
     end
     
     if max([p1 p2 p3 p4 p5])==p1
@@ -165,11 +165,11 @@ for i = val_ind3
     p5 = log(ccprob(5));
     
     for j = 1:size(X_3{i},1)
-         p1 = p1 + log(evalGMM(X_3{i}(j, :), w1, mu1, C1));
-         p2 = p2 + log(evalGMM(X_3{i}(j, :), w2, mu2, C2));
-         p3 = p3 + log(evalGMM(X_3{i}(j, :), w3, mu3, C3));
-         p4 = p4 + log(evalGMM(X_3{i}(j, :), w4, mu4, C4));
-         p5 = p5 + log(evalGMM(X_3{i}(j, :), w5, mu5, C5));
+         p1 = p1 + evalGMM(X_3{i}(j, :), w1, mu1, C1);
+         p2 = p2 + evalGMM(X_3{i}(j, :), w2, mu2, C2);
+         p3 = p3 + evalGMM(X_3{i}(j, :), w3, mu3, C3);
+         p4 = p4 + evalGMM(X_3{i}(j, :), w4, mu4, C4);
+         p5 = p5 + evalGMM(X_3{i}(j, :), w5, mu5, C5);
     end
     
     if max([p1 p2 p3 p4 p5])==p1
@@ -193,11 +193,11 @@ for i = val_ind4
     p5 = log(ccprob(5));
     
     for j = 1:size(X_4{i},1)
-         p1 = p1 + log(evalGMM(X_4{i}(j, :), w1, mu1, C1));
-         p2 = p2 + log(evalGMM(X_4{i}(j, :), w2, mu2, C2));
-         p3 = p3 + log(evalGMM(X_4{i}(j, :), w3, mu3, C3));
-         p4 = p4 + log(evalGMM(X_4{i}(j, :), w4, mu4, C4));
-         p5 = p5 + log(evalGMM(X_4{i}(j, :), w5, mu5, C5));
+         p1 = p1 + evalGMM(X_4{i}(j, :), w1, mu1, C1);
+         p2 = p2 + evalGMM(X_4{i}(j, :), w2, mu2, C2);
+         p3 = p3 + evalGMM(X_4{i}(j, :), w3, mu3, C3);
+         p4 = p4 + evalGMM(X_4{i}(j, :), w4, mu4, C4);
+         p5 = p5 + evalGMM(X_4{i}(j, :), w5, mu5, C5);
     end
     
     if max([p1 p2 p3 p4 p5])==p1
@@ -221,11 +221,11 @@ for i = val_ind5
     p5 = log(ccprob(5));
     
     for j = 1:size(X_5{i},1)
-         p1 = p1 + log(evalGMM(X_5{i}(j, :), w1, mu1, C1));
-         p2 = p2 + log(evalGMM(X_5{i}(j, :), w2, mu2, C2));
-         p3 = p3 + log(evalGMM(X_5{i}(j, :), w3, mu3, C3));
-         p4 = p4 + log(evalGMM(X_5{i}(j, :), w4, mu4, C4));
-         p5 = p5 + log(evalGMM(X_5{i}(j, :), w5, mu5, C5));
+         p1 = p1 + evalGMM(X_5{i}(j, :), w1, mu1, C1);
+         p2 = p2 + evalGMM(X_5{i}(j, :), w2, mu2, C2);
+         p3 = p3 + evalGMM(X_5{i}(j, :), w3, mu3, C3);
+         p4 = p4 + evalGMM(X_5{i}(j, :), w4, mu4, C4);
+         p5 = p5 + evalGMM(X_5{i}(j, :), w5, mu5, C5);
     end
     
     if max([p1 p2 p3 p4 p5])==p1
@@ -249,11 +249,11 @@ for i = test_ind1
     p5 = log(ccprob(5));
     
     for j = 1:size(X_1{i},1)
-         p1 = p1 + log(evalGMM(X_1{i}(j, :), w1, mu1, C1));
-         p2 = p2 + log(evalGMM(X_1{i}(j, :), w2, mu2, C2));
-         p3 = p3 + log(evalGMM(X_1{i}(j, :), w3, mu3, C3));
-         p4 = p4 + log(evalGMM(X_1{i}(j, :), w4, mu4, C4));
-         p5 = p5 + log(evalGMM(X_1{i}(j, :), w5, mu5, C5));
+         p1 = p1 + evalGMM(X_1{i}(j, :), w1, mu1, C1);
+         p2 = p2 + evalGMM(X_1{i}(j, :), w2, mu2, C2);
+         p3 = p3 + evalGMM(X_1{i}(j, :), w3, mu3, C3);
+         p4 = p4 + evalGMM(X_1{i}(j, :), w4, mu4, C4);
+         p5 = p5 + evalGMM(X_1{i}(j, :), w5, mu5, C5);
     end
     
     if max([p1 p2 p3 p4 p5])==p1
@@ -277,11 +277,11 @@ for i = test_ind2
     p5 = log(ccprob(5));
     
     for j = 1:size(X_2{i},1)
-         p1 = p1 + log(evalGMM(X_2{i}(j, :), w1, mu1, C1));
-         p2 = p2 + log(evalGMM(X_2{i}(j, :), w2, mu2, C2));
-         p3 = p3 + log(evalGMM(X_2{i}(j, :), w3, mu3, C3));
-         p4 = p4 + log(evalGMM(X_2{i}(j, :), w4, mu4, C4));
-         p5 = p5 + log(evalGMM(X_2{i}(j, :), w5, mu5, C5));
+         p1 = p1 + evalGMM(X_2{i}(j, :), w1, mu1, C1);
+         p2 = p2 + evalGMM(X_2{i}(j, :), w2, mu2, C2);
+         p3 = p3 + evalGMM(X_2{i}(j, :), w3, mu3, C3);
+         p4 = p4 + evalGMM(X_2{i}(j, :), w4, mu4, C4);
+         p5 = p5 + evalGMM(X_2{i}(j, :), w5, mu5, C5);
     end
     
     if max([p1 p2 p3 p4 p5])==p1
@@ -305,11 +305,11 @@ for i = test_ind3
     p5 = log(ccprob(5));
     
     for j = 1:size(X_3{i},1)
-         p1 = p1 + log(evalGMM(X_3{i}(j, :), w1, mu1, C1));
-         p2 = p2 + log(evalGMM(X_3{i}(j, :), w2, mu2, C2));
-         p3 = p3 + log(evalGMM(X_3{i}(j, :), w3, mu3, C3));
-         p4 = p4 + log(evalGMM(X_3{i}(j, :), w4, mu4, C4));
-         p5 = p5 + log(evalGMM(X_3{i}(j, :), w5, mu5, C5));
+         p1 = p1 + evalGMM(X_3{i}(j, :), w1, mu1, C1);
+         p2 = p2 + evalGMM(X_3{i}(j, :), w2, mu2, C2);
+         p3 = p3 + evalGMM(X_3{i}(j, :), w3, mu3, C3);
+         p4 = p4 + evalGMM(X_3{i}(j, :), w4, mu4, C4);
+         p5 = p5 + evalGMM(X_3{i}(j, :), w5, mu5, C5);
     end
     
     if max([p1 p2 p3 p4 p5])==p1
@@ -333,11 +333,11 @@ for i = test_ind4
     p5 = log(ccprob(5));
     
     for j = 1:size(X_4{i},1)
-         p1 = p1 + log(evalGMM(X_4{i}(j, :), w1, mu1, C1));
-         p2 = p2 + log(evalGMM(X_4{i}(j, :), w2, mu2, C2));
-         p3 = p3 + log(evalGMM(X_4{i}(j, :), w3, mu3, C3));
-         p4 = p4 + log(evalGMM(X_4{i}(j, :), w4, mu4, C4));
-         p5 = p5 + log(evalGMM(X_4{i}(j, :), w5, mu5, C5));
+         p1 = p1 + evalGMM(X_4{i}(j, :), w1, mu1, C1);
+         p2 = p2 + evalGMM(X_4{i}(j, :), w2, mu2, C2);
+         p3 = p3 + evalGMM(X_4{i}(j, :), w3, mu3, C3);
+         p4 = p4 + evalGMM(X_4{i}(j, :), w4, mu4, C4);
+         p5 = p5 + evalGMM(X_4{i}(j, :), w5, mu5, C5);
     end
     
     if max([p1 p2 p3 p4 p5])==p1
@@ -361,11 +361,11 @@ for i = test_ind5
     p5 = log(ccprob(5));
     
     for j = 1:size(X_5{i},1)
-         p1 = p1 + log(evalGMM(X_5{i}(j, :), w1, mu1, C1));
-         p2 = p2 + log(evalGMM(X_5{i}(j, :), w2, mu2, C2));
-         p3 = p3 + log(evalGMM(X_5{i}(j, :), w3, mu3, C3));
-         p4 = p4 + log(evalGMM(X_5{i}(j, :), w4, mu4, C4));
-         p5 = p5 + log(evalGMM(X_5{i}(j, :), w5, mu5, C5));
+         p1 = p1 + evalGMM(X_5{i}(j, :), w1, mu1, C1);
+         p2 = p2 + evalGMM(X_5{i}(j, :), w2, mu2, C2);
+         p3 = p3 + evalGMM(X_5{i}(j, :), w3, mu3, C3);
+         p4 = p4 + evalGMM(X_5{i}(j, :), w4, mu4, C4);
+         p5 = p5 + evalGMM(X_5{i}(j, :), w5, mu5, C5);
     end
     
     if max([p1 p2 p3 p4 p5])==p1

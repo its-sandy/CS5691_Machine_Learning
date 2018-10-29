@@ -24,9 +24,9 @@ for i=1:N
 end
 
 ctr = 0;
-threshold = 0.05;
+threshold = 0.001;
 
-while ctr==0 || abs(lhood_new-lhood_old)>threshold
+while ctr==0 || abs(lhood_new-lhood_old)>threshold*lhood_old
     gamma = temp;
     for i=1:N
         gamma(i, :) = gamma(i, :)/sum(gamma(i, :));
@@ -41,7 +41,11 @@ while ctr==0 || abs(lhood_new-lhood_old)>threshold
     lhood_old = lhood_new;
     
     for i=1:Q
+        try
         temp(:, i) = mvnpdf(X, mu(i, :), C(:, :, i));
+        catch
+            return;
+        end
         if isNaive==1
             C(:, :, i) = diag(diag(C(:, :, i)));
         end
