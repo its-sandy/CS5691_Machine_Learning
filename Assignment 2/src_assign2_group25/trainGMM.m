@@ -1,4 +1,4 @@
-function [w, mu, C] = trainGMM(X, Q)
+function [w, mu, C] = trainGMM(X, Q, isNaive)
 
 N = size(X, 1);
 d = size(X, 2);
@@ -13,6 +13,9 @@ gamma = zeros(N, Q);
 lhood_old = 0;
 temp = zeros(N, Q);
 for i=1:Q
+   if isNaive==1
+       C(:, :, i) = diag(diag(C(:, :, i)));
+   end
    temp(:, i) = mvnpdf(X, mu(i, :), C(:, :, i)); 
 end
 lhood_new = 0;
@@ -38,7 +41,10 @@ while ctr==0 || abs(lhood_new-lhood_old)>threshold
     lhood_old = lhood_new;
     
     for i=1:Q
-        temp(:, i) = mvnpdf(X, mu(i, :), C(:, :, i)); 
+        temp(:, i) = mvnpdf(X, mu(i, :), C(:, :, i));
+        if isNaive==1
+            C(:, :, i) = diag(diag(C(:, :, i)));
+        end
     end
     lhood_new = 0;
     for i=1:N
