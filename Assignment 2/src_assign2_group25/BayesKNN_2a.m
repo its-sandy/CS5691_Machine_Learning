@@ -1,6 +1,6 @@
 k = 10;
 
-XY = table2array(readtable('..\data_assign2_group25\wine.data.txt'));
+XY = table2array(readtable(fullfile('..','data_assign2_group25','wine.data.txt')));
 
 X_1 = XY(XY(:, 1)==1, 2:end);
 X_2 = XY(XY(:, 1)==2, 2:end);
