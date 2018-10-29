@@ -1,4 +1,4 @@
-k = 10;
+k = 15;
 
 X_train1 = table2array(readtable('..\data_assign2_group25\datasets 1  2\datasets 1 _ 2\group25\overlapping\class1_train.txt'));
 X_val1 = table2array(readtable('..\data_assign2_group25\datasets 1  2\datasets 1 _ 2\group25\overlapping\class1_val.txt'));
@@ -27,21 +27,21 @@ for i = 1:size(X_val1, 1)
         closest(j) = sum((X_train1(j, :)-X_val1(i,:)).^2);
     end
     closest = sortrows(closest, 1);
-    p1(i) = (3*k)*ccprob(1)/(size(X_train1,1)*4*pi*(closest(k)^3));
+    p1(i) = k*ccprob(1)/(size(X_train1,1)*pi*(closest(k)^2));
     
     closest = zeros(size(X_train2, 1), 1);
     for j = 1:size(X_train2, 1)
         closest(j) = sum((X_train2(j, :)-X_val1(i,:)).^2);
     end
     closest = sortrows(closest, 1);
-    p2(i) = (3*k)*ccprob(2)/(size(X_train2,1)*4*pi*(closest(k)^3));
+    p2(i) = k*ccprob(2)/(size(X_train2,1)*pi*(closest(k)^2));
     
     closest = zeros(size(X_train3, 1), 1);
     for j = 1:size(X_train3, 1)
         closest(j) = sum((X_train3(j, :)-X_val1(i,:)).^2);
     end
     closest = sortrows(closest, 1);
-    p3(i) = (3*k)*ccprob(3)/(size(X_train3,1)*4*pi*(closest(k)^3));
+    p3(i) = k*ccprob(3)/(size(X_train3,1)*pi*(closest(k)^2));
     
     if max([p1(i) p2(i) p3(i)])==p1(i)
        conf_matrix_val(1, 1) = conf_matrix_val(1, 1)+1;
@@ -62,21 +62,21 @@ for i = 1:size(X_val2, 1)
         closest(j) = sum((X_train1(j, :)-X_val2(i,:)).^2);
     end
     closest = sortrows(closest, 1);
-    p1(i) = (3*k)*ccprob(1)/(size(X_train1,1)*4*pi*(closest(k)^3));
+    p1(i) = k*ccprob(1)/(size(X_train1,1)*pi*(closest(k)^2));
     
     closest = zeros(size(X_train2, 1), 1);
     for j = 1:size(X_train2, 1)
         closest(j) = sum((X_train2(j, :)-X_val2(i,:)).^2);
     end
     closest = sortrows(closest, 1);
-    p2(i) = (3*k)*ccprob(2)/(size(X_train2,1)*4*pi*(closest(k)^3));
+    p2(i) = k*ccprob(2)/(size(X_train2,1)*pi*(closest(k)^2));
     
     closest = zeros(size(X_train3, 1), 1);
     for j = 1:size(X_train3, 1)
         closest(j) = sum((X_train3(j, :)-X_val2(i,:)).^2);
     end
     closest = sortrows(closest, 1);
-    p3(i) = (3*k)*ccprob(3)/(size(X_train3,1)*4*pi*(closest(k)^3));
+    p3(i) = k*ccprob(3)/(size(X_train3,1)*pi*(closest(k)^2));
     
     if max([p1(i) p2(i) p3(i)])==p1(i)
        conf_matrix_val(2, 1) = conf_matrix_val(2, 1)+1;
@@ -97,21 +97,21 @@ for i = 1:size(X_val3, 1)
         closest(j) = sum((X_train1(j, :)-X_val3(i,:)).^2);
     end
     closest = sortrows(closest, 1);
-    p1(i) = (3*k)*ccprob(1)/(size(X_train1,1)*4*pi*(closest(k)^3));
+    p1(i) = k*ccprob(1)/(size(X_train1,1)*pi*(closest(k)^2));
     
     closest = zeros(size(X_train2, 1), 1);
     for j = 1:size(X_train2, 1)
         closest(j) = sum((X_train2(j, :)-X_val3(i,:)).^2);
     end
     closest = sortrows(closest, 1);
-    p2(i) = (3*k)*ccprob(2)/(size(X_train2,1)*4*pi*(closest(k)^3));
+    p2(i) = k*ccprob(2)/(size(X_train2,1)*pi*(closest(k)^2));
     
     closest = zeros(size(X_train3, 1), 1);
     for j = 1:size(X_train3, 1)
         closest(j) = sum((X_train3(j, :)-X_val3(i,:)).^2);
     end
     closest = sortrows(closest, 1);
-    p3(i) = (3*k)*ccprob(3)/(size(X_train3,1)*4*pi*(closest(k)^3));
+    p3(i) = k*ccprob(3)/(size(X_train3,1)*pi*(closest(k)^2));
     
     if max([p1(i) p2(i) p3(i)])==p1(i)
        conf_matrix_val(3, 1) = conf_matrix_val(3, 1)+1;
@@ -132,21 +132,21 @@ for i = 1:size(X_test1, 1)
         closest(j) = sum((X_train1(j, :)-X_test1(i,:)).^2);
     end
     closest = sortrows(closest, 1);
-    p1(i) = (3*k)*ccprob(1)/(size(X_train1,1)*4*pi*(closest(k)^3));
+    p1(i) = k*ccprob(1)/(size(X_train1,1)*pi*(closest(k)^2));
     
     closest = zeros(size(X_train2, 1), 1);
     for j = 1:size(X_train2, 1)
         closest(j) = sum((X_train2(j, :)-X_test1(i,:)).^2);
     end
     closest = sortrows(closest, 1);
-    p2(i) = (3*k)*ccprob(2)/(size(X_train2,1)*4*pi*(closest(k)^3));
+    p2(i) = k*ccprob(2)/(size(X_train2,1)*pi*(closest(k)^2));
     
     closest = zeros(size(X_train3, 1), 1);
     for j = 1:size(X_train3, 1)
         closest(j) = sum((X_train3(j, :)-X_test1(i,:)).^2);
     end
     closest = sortrows(closest, 1);
-    p3(i) = (3*k)*ccprob(3)/(size(X_train3,1)*4*pi*(closest(k)^3));
+    p3(i) = k*ccprob(3)/(size(X_train3,1)*pi*(closest(k)^2));
     
     if max([p1(i) p2(i) p3(i)])==p1(i)
        conf_matrix_test(1, 1) = conf_matrix_test(1, 1)+1;
@@ -167,21 +167,21 @@ for i = 1:size(X_test2, 1)
         closest(j) = sum((X_train1(j, :)-X_test2(i,:)).^2);
     end
     closest = sortrows(closest, 1);
-    p1(i) = (3*k)*ccprob(1)/(size(X_train1,1)*4*pi*(closest(k)^3));
+    p1(i) = k*ccprob(1)/(size(X_train1,1)*pi*(closest(k)^2));
     
     closest = zeros(size(X_train2, 1), 1);
     for j = 1:size(X_train2, 1)
         closest(j) = sum((X_train2(j, :)-X_test2(i,:)).^2);
     end
     closest = sortrows(closest, 1);
-    p2(i) = (3*k)*ccprob(2)/(size(X_train2,1)*4*pi*(closest(k)^3));
+    p2(i) = k*ccprob(2)/(size(X_train2,1)*pi*(closest(k)^2));
     
     closest = zeros(size(X_train3, 1), 1);
     for j = 1:size(X_train3, 1)
         closest(j) = sum((X_train3(j, :)-X_test2(i,:)).^2);
     end
     closest = sortrows(closest, 1);
-    p3(i) = (3*k)*ccprob(3)/(size(X_train3,1)*4*pi*(closest(k)^3));
+    p3(i) = k*ccprob(3)/(size(X_train3,1)*pi*(closest(k)^2));
     
     if max([p1(i) p2(i) p3(i)])==p1(i)
        conf_matrix_test(2, 1) = conf_matrix_test(2, 1)+1;
@@ -202,21 +202,21 @@ for i = 1:size(X_test3, 1)
         closest(j) = sum((X_train1(j, :)-X_test3(i,:)).^2);
     end
     closest = sortrows(closest, 1);
-    p1(i) = (3*k)*ccprob(1)/(size(X_train1,1)*4*pi*(closest(k)^3));
+    p1(i) = k*ccprob(1)/(size(X_train1,1)*pi*(closest(k)^2));
     
     closest = zeros(size(X_train2, 1), 1);
     for j = 1:size(X_train2, 1)
         closest(j) = sum((X_train2(j, :)-X_test3(i,:)).^2);
     end
     closest = sortrows(closest, 1);
-    p2(i) = (3*k)*ccprob(2)/(size(X_train2,1)*4*pi*(closest(k)^3));
+    p2(i) = k*ccprob(2)/(size(X_train2,1)*pi*(closest(k)^2));
     
     closest = zeros(size(X_train3, 1), 1);
     for j = 1:size(X_train3, 1)
         closest(j) = sum((X_train3(j, :)-X_test3(i,:)).^2);
     end
     closest = sortrows(closest, 1);
-    p3(i) = (3*k)*ccprob(3)/(size(X_train3,1)*4*pi*(closest(k)^3));
+    p3(i) = k*ccprob(3)/(size(X_train3,1)*pi*(closest(k)^2));
     
     if max([p1(i) p2(i) p3(i)])==p1(i)
        conf_matrix_test(3, 1) = conf_matrix_test(3, 1)+1;
