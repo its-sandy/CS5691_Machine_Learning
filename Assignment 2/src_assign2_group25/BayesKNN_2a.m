@@ -1,18 +1,31 @@
 k = 10;
 
-X_train1 = table2array(readtable('..\data_assign2_group25\datasets 1  2\datasets 1 _ 2\group25\overlapping\class1_train.txt'));
-X_val1 = table2array(readtable('..\data_assign2_group25\datasets 1  2\datasets 1 _ 2\group25\overlapping\class1_val.txt'));
-X_test1 = table2array(readtable('..\data_assign2_group25\datasets 1  2\datasets 1 _ 2\group25\overlapping\class1_test.txt'));
+XY = table2array(readtable('..\data_assign2_group25\wine.data.txt'));
 
-X_train2 = table2array(readtable('..\data_assign2_group25\datasets 1  2\datasets 1 _ 2\group25\overlapping\class2_train.txt'));
-X_val2 = table2array(readtable('..\data_assign2_group25\datasets 1  2\datasets 1 _ 2\group25\overlapping\class2_val.txt'));
-X_test2 = table2array(readtable('..\data_assign2_group25\datasets 1  2\datasets 1 _ 2\group25\overlapping\class2_test.txt'));
+X_1 = XY(XY(:, 1)==1, 2:end);
+X_2 = XY(XY(:, 1)==2, 2:end);
+X_3 = XY(XY(:, 1)==3, 2:end);
 
-X_train3 = table2array(readtable('..\data_assign2_group25\datasets 1  2\datasets 1 _ 2\group25\overlapping\class3_train.txt'));
-X_val3 = table2array(readtable('..\data_assign2_group25\datasets 1  2\datasets 1 _ 2\group25\overlapping\class3_val.txt'));
-X_test3 = table2array(readtable('..\data_assign2_group25\datasets 1  2\datasets 1 _ 2\group25\overlapping\class3_test.txt'));
+[train_ind, test_ind, val_ind] = dividerand(size(X_1, 1), 0.7, 0.2, 0.1);
 
-ccprob = ones(3, 1)/3;
+X_train1 = X_1(train_ind, :);
+X_test1 = X_1(test_ind, :);
+X_val1 = X_1(val_ind, :);
+
+[train_ind, test_ind, val_ind] = dividerand(size(X_2, 1), 0.7, 0.2, 0.1);
+
+X_train2 = X_2(train_ind, :);
+X_test2 = X_2(test_ind, :);
+X_val2 = X_2(val_ind, :);
+
+[train_ind, test_ind, val_ind] = dividerand(size(X_3, 1), 0.7, 0.2, 0.1);
+
+X_train3 = X_3(train_ind, :);
+X_test3 = X_3(test_ind, :);
+X_val3 = X_3(val_ind, :);
+
+ccprob = [size(X_train1, 1), size(X_train2, 1), size(X_train3, 1)];
+ccprob = ccprob/sum(ccprob);
 
 conf_matrix_val = zeros(3, 3);
 conf_matrix_test = zeros(3, 3);
