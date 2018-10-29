@@ -1,1 +1,0 @@
-function ret = trainGMM(X, Q)
