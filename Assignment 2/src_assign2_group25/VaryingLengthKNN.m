@@ -13,7 +13,7 @@ for i = 1:size(TrainCells,1)
 	ptemp = -log(ptemp);
 
 	for j = 1:size(XCells,1)
-		likelihood(i,j) = sum(ptemp(X_test(:,1) == j));
+		likelihood(j,i) = sum(ptemp(X_test(:,1) == j));
 	end
 end
 [~,pred] = max(likelihood,[],2);
