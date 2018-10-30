@@ -85,248 +85,92 @@ n5 = size(X_5, 1);
 
 X_train5 = cell2mat(X_5(train_ind5));
 
+All_train = cell(5, 1);
+All_train{1} = X_train1;
+All_train{2} = X_train2;
+All_train{3} = X_train3;
+All_train{4} = X_train4;
+All_train{5} = X_train5;
+
 conf_matrix_val = zeros(5, 5);
 conf_matrix_test = zeros(5, 5);
 
-for i = val_ind1
-    p1 = 0;p2 = 0;p3 = 0;p4 = 0;p5 = 0;
-    
-    for j = 1:size(X_1{i},1)
-         p1 = p1 - log(getKNNRadius(X_1{i}(j, :), X_train1, k));
-         p2 = p2 - log(getKNNRadius(X_1{i}(j, :), X_train2, k));
-         p3 = p3 - log(getKNNRadius(X_1{i}(j, :), X_train3, k));
-         p4 = p4 - log(getKNNRadius(X_1{i}(j, :), X_train4, k));
-         p5 = p5 - log(getKNNRadius(X_1{i}(j, :), X_train5, k));
-    end
-    
-    if max([p1 p2 p3 p4 p5])==p1
-       conf_matrix_val(1, 1) = conf_matrix_val(1, 1)+1;
-    elseif max([p1 p2 p3 p4 p5])==p2
-       conf_matrix_val(1, 2) = conf_matrix_val(1, 2)+1;
-    elseif max([p1 p2 p3 p4 p5])==p3
-       conf_matrix_val(1, 3) = conf_matrix_val(1, 3)+1;
-    elseif max([p1 p2 p3 p4 p5])==p4
-       conf_matrix_val(1, 4) = conf_matrix_val(1, 4)+1;
-    elseif max([p1 p2 p3 p4 p5])==p5
-       conf_matrix_val(1, 5) = conf_matrix_val(1, 5)+1;
-    end
+pred = VaryingLengthKNN(X_1(val_ind1), All_train, k);
+for i = 1:5
+  conf_matrix_val(1,i) = conf_matrix_val(1,i) + sum(pred == i);
 end
 
-for i = val_ind2
-    p1 = 0;p2 = 0;p3 = 0;p4 = 0;p5 = 0;
-    
-    for j = 1:size(X_2{i},1)
-         p1 = p1 - log(getKNNRadius(X_2{i}(j, :), X_train1, k));
-         p2 = p2 - log(getKNNRadius(X_2{i}(j, :), X_train2, k));
-         p3 = p3 - log(getKNNRadius(X_2{i}(j, :), X_train3, k));
-         p4 = p4 - log(getKNNRadius(X_2{i}(j, :), X_train4, k));
-         p5 = p5 - log(getKNNRadius(X_2{i}(j, :), X_train5, k));
-    end
-    
-    if max([p1 p2 p3 p4 p5])==p1
-       conf_matrix_val(2, 1) = conf_matrix_val(2, 1)+1;
-    elseif max([p1 p2 p3 p4 p5])==p2
-       conf_matrix_val(2, 2) = conf_matrix_val(2, 2)+1;
-    elseif max([p1 p2 p3 p4 p5])==p3
-       conf_matrix_val(2, 3) = conf_matrix_val(2, 3)+1;
-    elseif max([p1 p2 p3 p4 p5])==p4
-       conf_matrix_val(2, 4) = conf_matrix_val(2, 4)+1;
-    elseif max([p1 p2 p3 p4 p5])==p5
-       conf_matrix_val(2, 5) = conf_matrix_val(2, 5)+1;
-    end
+pred = VaryingLengthKNN(X_2(val_ind2), All_train, k);
+for i = 1:5
+  conf_matrix_val(2,i) = conf_matrix_val(2,i) + sum(pred == i);
 end
 
-for i = val_ind3
-    p1 = 0;p2 = 0;p3 = 0;p4 = 0;p5 = 0;
-    
-    for j = 1:size(X_3{i},1)
-         p1 = p1 - log(getKNNRadius(X_3{i}(j, :), X_train1, k));
-         p2 = p2 - log(getKNNRadius(X_3{i}(j, :), X_train2, k));
-         p3 = p3 - log(getKNNRadius(X_3{i}(j, :), X_train3, k));
-         p4 = p4 - log(getKNNRadius(X_3{i}(j, :), X_train4, k));
-         p5 = p5 - log(getKNNRadius(X_3{i}(j, :), X_train5, k));
-    end
-    
-    if max([p1 p2 p3 p4 p5])==p1
-       conf_matrix_val(3, 1) = conf_matrix_val(3, 1)+1;
-    elseif max([p1 p2 p3 p4 p5])==p2
-       conf_matrix_val(3, 2) = conf_matrix_val(3, 2)+1;
-    elseif max([p1 p2 p3 p4 p5])==p3
-       conf_matrix_val(3, 3) = conf_matrix_val(3, 3)+1;
-    elseif max([p1 p2 p3 p4 p5])==p4
-       conf_matrix_val(3, 4) = conf_matrix_val(3, 4)+1;
-    elseif max([p1 p2 p3 p4 p5])==p5
-       conf_matrix_val(3, 5) = conf_matrix_val(3, 5)+1;
-    end
+pred = VaryingLengthKNN(X_3(val_ind3), All_train, k);
+for i = 1:5
+  conf_matrix_val(3,i) = conf_matrix_val(3,i) + sum(pred == i);
 end
 
-for i = val_ind4
-    p1 = 0;p2 = 0;p3 = 0;p4 = 0;p5 = 0;
-    
-    for j = 1:size(X_4{i},1)
-         p1 = p1 - log(getKNNRadius(X_4{i}(j, :), X_train1, k));
-         p2 = p2 - log(getKNNRadius(X_4{i}(j, :), X_train2, k));
-         p3 = p3 - log(getKNNRadius(X_4{i}(j, :), X_train3, k));
-         p4 = p4 - log(getKNNRadius(X_4{i}(j, :), X_train4, k));
-         p5 = p5 - log(getKNNRadius(X_4{i}(j, :), X_train5, k));
-    end
-    
-    if max([p1 p2 p3 p4 p5])==p1
-       conf_matrix_val(4, 1) = conf_matrix_val(4, 1)+1;
-    elseif max([p1 p2 p3 p4 p5])==p2
-       conf_matrix_val(4, 2) = conf_matrix_val(4, 2)+1;
-    elseif max([p1 p2 p3 p4 p5])==p3
-       conf_matrix_val(4, 3) = conf_matrix_val(4, 3)+1;
-    elseif max([p1 p2 p3 p4 p5])==p4
-       conf_matrix_val(4, 4) = conf_matrix_val(4, 4)+1;
-    elseif max([p1 p2 p3 p4 p5])==p5
-       conf_matrix_val(4, 5) = conf_matrix_val(4, 5)+1;
-    end
+pred = VaryingLengthKNN(X_4(val_ind4), All_train, k);
+for i = 1:5
+  conf_matrix_val(4,i) = conf_matrix_val(4,i) + sum(pred == i);
 end
 
-for i = val_ind5
-    p1 = 0;p2 = 0;p3 = 0;p4 = 0;p5 = 0;
-    
-    for j = 1:size(X_5{i},1)
-         p1 = p1 - log(getKNNRadius(X_5{i}(j, :), X_train1, k));
-         p2 = p2 - log(getKNNRadius(X_5{i}(j, :), X_train2, k));
-         p3 = p3 - log(getKNNRadius(X_5{i}(j, :), X_train3, k));
-         p4 = p4 - log(getKNNRadius(X_5{i}(j, :), X_train4, k));
-         p5 = p5 - log(getKNNRadius(X_5{i}(j, :), X_train5, k));
-    end
-    
-    if max([p1 p2 p3 p4 p5])==p1
-       conf_matrix_val(5, 1) = conf_matrix_val(5, 1)+1;
-    elseif max([p1 p2 p3 p4 p5])==p2
-       conf_matrix_val(5, 2) = conf_matrix_val(5, 2)+1;
-    elseif max([p1 p2 p3 p4 p5])==p3
-       conf_matrix_val(5, 3) = conf_matrix_val(5, 3)+1;
-    elseif max([p1 p2 p3 p4 p5])==p4
-       conf_matrix_val(5, 4) = conf_matrix_val(5, 4)+1;
-    elseif max([p1 p2 p3 p4 p5])==p5
-       conf_matrix_val(5, 5) = conf_matrix_val(5, 5)+1;
-    end
+pred = VaryingLengthKNN(X_5(val_ind5), All_train, k);
+for i = 1:5
+  conf_matrix_val(5,i) = conf_matrix_val(5,i) + sum(pred == i);
+end 
+
+%
+
+pred = VaryingLengthKNN(X_1(test_ind1), All_train, k);
+for i = 1:5
+  conf_matrix_test(1,i) = conf_matrix_test(1,i) + sum(pred == i);
 end
 
-for i = test_ind1
-    p1 = 0;p2 = 0;p3 = 0;p4 = 0;p5 = 0;
-    
-    for j = 1:size(X_1{i},1)
-         p1 = p1 - log(getKNNRadius(X_1{i}(j, :), X_train1, k));
-         p2 = p2 - log(getKNNRadius(X_1{i}(j, :), X_train2, k));
-         p3 = p3 - log(getKNNRadius(X_1{i}(j, :), X_train3, k));
-         p4 = p4 - log(getKNNRadius(X_1{i}(j, :), X_train4, k));
-         p5 = p5 - log(getKNNRadius(X_1{i}(j, :), X_train5, k));
-    end
-    
-    if max([p1 p2 p3 p4 p5])==p1
-       conf_matrix_test(1, 1) = conf_matrix_test(1, 1)+1;
-    elseif max([p1 p2 p3 p4 p5])==p2
-       conf_matrix_test(1, 2) = conf_matrix_test(1, 2)+1;
-    elseif max([p1 p2 p3 p4 p5])==p3
-       conf_matrix_test(1, 3) = conf_matrix_test(1, 3)+1;
-    elseif max([p1 p2 p3 p4 p5])==p4
-       conf_matrix_test(1, 4) = conf_matrix_test(1, 4)+1;
-    elseif max([p1 p2 p3 p4 p5])==p5
-       conf_matrix_test(1, 5) = conf_matrix_test(1, 5)+1;
-    end
+pred = VaryingLengthKNN(X_2(test_ind2), All_train, k);
+for i = 1:5
+  conf_matrix_test(2,i) = conf_matrix_test(2,i) + sum(pred == i);
 end
 
-for i = test_ind2
-    p1 = 0;p2 = 0;p3 = 0;p4 = 0;p5 = 0;
-    
-    for j = 1:size(X_2{i},1)
-         p1 = p1 - log(getKNNRadius(X_2{i}(j, :), X_train1, k));
-         p2 = p2 - log(getKNNRadius(X_2{i}(j, :), X_train2, k));
-         p3 = p3 - log(getKNNRadius(X_2{i}(j, :), X_train3, k));
-         p4 = p4 - log(getKNNRadius(X_2{i}(j, :), X_train4, k));
-         p5 = p5 - log(getKNNRadius(X_2{i}(j, :), X_train5, k));
-    end
-    
-    if max([p1 p2 p3 p4 p5])==p1
-       conf_matrix_test(2, 1) = conf_matrix_test(2, 1)+1;
-    elseif max([p1 p2 p3 p4 p5])==p2
-       conf_matrix_test(2, 2) = conf_matrix_test(2, 2)+1;
-    elseif max([p1 p2 p3 p4 p5])==p3
-       conf_matrix_test(2, 3) = conf_matrix_test(2, 3)+1;
-    elseif max([p1 p2 p3 p4 p5])==p4
-       conf_matrix_test(2, 4) = conf_matrix_test(2, 4)+1;
-    elseif max([p1 p2 p3 p4 p5])==p5
-       conf_matrix_test(2, 5) = conf_matrix_test(2, 5)+1;
-    end
+pred = VaryingLengthKNN(X_3(test_ind3), All_train, k);
+for i = 1:5
+  conf_matrix_test(3,i) = conf_matrix_test(3,i) + sum(pred == i);
 end
 
-for i = test_ind3
-    p1 = 0;p2 = 0;p3 = 0;p4 = 0;p5 = 0;
-    
-    for j = 1:size(X_3{i},1)
-         p1 = p1 - log(getKNNRadius(X_3{i}(j, :), X_train1, k));
-         p2 = p2 - log(getKNNRadius(X_3{i}(j, :), X_train2, k));
-         p3 = p3 - log(getKNNRadius(X_3{i}(j, :), X_train3, k));
-         p4 = p4 - log(getKNNRadius(X_3{i}(j, :), X_train4, k));
-         p5 = p5 - log(getKNNRadius(X_3{i}(j, :), X_train5, k));
-    end
-    
-    if max([p1 p2 p3 p4 p5])==p1
-       conf_matrix_test(3, 1) = conf_matrix_test(3, 1)+1;
-    elseif max([p1 p2 p3 p4 p5])==p2
-       conf_matrix_test(3, 2) = conf_matrix_test(3, 2)+1;
-    elseif max([p1 p2 p3 p4 p5])==p3
-       conf_matrix_test(3, 3) = conf_matrix_test(3, 3)+1;
-    elseif max([p1 p2 p3 p4 p5])==p4
-       conf_matrix_test(3, 4) = conf_matrix_test(3, 4)+1;
-    elseif max([p1 p2 p3 p4 p5])==p5
-       conf_matrix_test(3, 5) = conf_matrix_test(3, 5)+1;
-    end
+pred = VaryingLengthKNN(X_4(test_ind4), All_train, k);
+for i = 1:5
+  conf_matrix_test(4,i) = conf_matrix_test(4,i) + sum(pred == i);
 end
 
-for i = test_ind4
-    p1 = 0;p2 = 0;p3 = 0;p4 = 0;p5 = 0;
-    
-    for j = 1:size(X_4{i},1)
-         p1 = p1 - log(getKNNRadius(X_4{i}(j, :), X_train1, k));
-         p2 = p2 - log(getKNNRadius(X_4{i}(j, :), X_train2, k));
-         p3 = p3 - log(getKNNRadius(X_4{i}(j, :), X_train3, k));
-         p4 = p4 - log(getKNNRadius(X_4{i}(j, :), X_train4, k));
-         p5 = p5 - log(getKNNRadius(X_4{i}(j, :), X_train5, k));
-    end
-    
-    if max([p1 p2 p3 p4 p5])==p1
-       conf_matrix_test(4, 1) = conf_matrix_test(4, 1)+1;
-    elseif max([p1 p2 p3 p4 p5])==p2
-       conf_matrix_test(4, 2) = conf_matrix_test(4, 2)+1;
-    elseif max([p1 p2 p3 p4 p5])==p3
-       conf_matrix_test(4, 3) = conf_matrix_test(4, 3)+1;
-    elseif max([p1 p2 p3 p4 p5])==p4
-       conf_matrix_test(4, 4) = conf_matrix_test(4, 4)+1;
-    elseif max([p1 p2 p3 p4 p5])==p5
-       conf_matrix_test(4, 5) = conf_matrix_test(4, 5)+1;
-    end
-end
+pred = VaryingLengthKNN(X_5(test_ind5), All_train, k);
+for i = 1:5
+  conf_matrix_test(5,i) = conf_matrix_test(5,i) + sum(pred == i);
+end 
 
-for i = test_ind5
-    p1 = 0;p2 = 0;p3 = 0;p4 = 0;p5 = 0;
+% for i = val_ind1
+%     p1 = 0;p2 = 0;p3 = 0;p4 = 0;p5 = 0;
     
-    for j = 1:size(X_5{i},1)
-         p1 = p1 - log(getKNNRadius(X_5{i}(j, :), X_train1, k));
-         p2 = p2 - log(getKNNRadius(X_5{i}(j, :), X_train2, k));
-         p3 = p3 - log(getKNNRadius(X_5{i}(j, :), X_train3, k));
-         p4 = p4 - log(getKNNRadius(X_5{i}(j, :), X_train4, k));
-         p5 = p5 - log(getKNNRadius(X_5{i}(j, :), X_train5, k));
-    end
+%     for j = 1:size(X_1{i},1)
+%          p1 = p1 - log(getKNNRadius(X_1{i}(j, :), X_train1, k));
+%          p2 = p2 - log(getKNNRadius(X_1{i}(j, :), X_train2, k));
+%          p3 = p3 - log(getKNNRadius(X_1{i}(j, :), X_train3, k));
+%          p4 = p4 - log(getKNNRadius(X_1{i}(j, :), X_train4, k));
+%          p5 = p5 - log(getKNNRadius(X_1{i}(j, :), X_train5, k));
+%     end
     
-    if max([p1 p2 p3 p4 p5])==p1
-       conf_matrix_test(5, 1) = conf_matrix_test(5, 1)+1;
-    elseif max([p1 p2 p3 p4 p5])==p2
-       conf_matrix_test(5, 2) = conf_matrix_test(5, 2)+1;
-    elseif max([p1 p2 p3 p4 p5])==p3
-       conf_matrix_test(5, 3) = conf_matrix_test(5, 3)+1;
-    elseif max([p1 p2 p3 p4 p5])==p4
-       conf_matrix_test(5, 4) = conf_matrix_test(5, 4)+1;
-    elseif max([p1 p2 p3 p4 p5])==p5
-       conf_matrix_test(5, 5) = conf_matrix_test(5, 5)+1;
-    end
-end
+%     if max([p1 p2 p3 p4 p5])==p1
+%        conf_matrix_val(1, 1) = conf_matrix_val(1, 1)+1;
+%     elseif max([p1 p2 p3 p4 p5])==p2
+%        conf_matrix_val(1, 2) = conf_matrix_val(1, 2)+1;
+%     elseif max([p1 p2 p3 p4 p5])==p3
+%        conf_matrix_val(1, 3) = conf_matrix_val(1, 3)+1;
+%     elseif max([p1 p2 p3 p4 p5])==p4
+%        conf_matrix_val(1, 4) = conf_matrix_val(1, 4)+1;
+%     elseif max([p1 p2 p3 p4 p5])==p5
+%        conf_matrix_val(1, 5) = conf_matrix_val(1, 5)+1;
+%     end
+% end
+
 
 fprintf("Validation accuracy: %f%%\n", sum(sum(diag(conf_matrix_val), 1))*100/sum(sum(conf_matrix_val, 1)));
 fprintf("Test accuracy: %f%%\n", sum(sum(diag(conf_matrix_test), 1))*100/sum(sum(conf_matrix_test, 1)));
