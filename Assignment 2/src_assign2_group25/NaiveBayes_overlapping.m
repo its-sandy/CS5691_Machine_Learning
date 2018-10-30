@@ -30,6 +30,7 @@ ccprob = ones(3, 1)/3;
     
 C = sigma*sigma*eye(size(X_train1, 2));
 
+conf_matrix_train = zeros(3, 3);
 conf_matrix_val = zeros(3, 3);
 conf_matrix_test = zeros(3, 3);
 
@@ -49,7 +50,7 @@ for i = 1:size(xy, 1)
    end
 end
 
-figure;
+subplot(1, 3, 1);
 decisionmap = reshape(predicted_class, image_size);
 
 imagesc(xrange,yrange,decisionmap);
@@ -62,7 +63,50 @@ X_train = [X_train1; X_train2; X_train3];
 X_label = [ones(size(X_train1,1),1); ones(size(X_train2,1),1)*2; ones(size(X_train3,1),1)*3];
 gscatter(X_train(:,1), X_train(:,2), X_label, 'rgb', 'sod');
 
+title('C_{1} = C_{2} = C_{3} = C = \sigma^{2} I');
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+p1 = mvnpdf(X_train1, means(1, :), C)*ccprob(1);
+p2 = mvnpdf(X_train1, means(2, :), C)*ccprob(2);
+p3 = mvnpdf(X_train1, means(3, :), C)*ccprob(3);
+
+for i = 1:size(X_train1, 1)
+   if max([p1(i) p2(i) p3(i)])==p1(i)
+       conf_matrix_train(1, 1) = conf_matrix_train(1, 1)+1;
+   elseif max([p1(i) p2(i) p3(i)])==p2(i)
+       conf_matrix_train(1, 2) = conf_matrix_train(1, 2)+1;
+   elseif max([p1(i) p2(i) p3(i)])==p3(i)
+       conf_matrix_train(1, 3) = conf_matrix_train(1, 3)+1;
+   end
+end
+
+p1 = mvnpdf(X_train2, means(1, :), C)*ccprob(1);
+p2 = mvnpdf(X_train2, means(2, :), C)*ccprob(2);
+p3 = mvnpdf(X_train2, means(3, :), C)*ccprob(3);
+
+for i = 1:size(X_train2, 1)
+   if max([p1(i) p2(i) p3(i)])==p1(i)
+       conf_matrix_train(2, 1) = conf_matrix_train(2, 1)+1;
+   elseif max([p1(i) p2(i) p3(i)])==p2(i)
+       conf_matrix_train(2, 2) = conf_matrix_train(2, 2)+1;
+   elseif max([p1(i) p2(i) p3(i)])==p3(i)
+       conf_matrix_train(2, 3) = conf_matrix_train(2, 3)+1;
+   end
+end
+
+p1 = mvnpdf(X_train3, means(1, :), C)*ccprob(1);
+p2 = mvnpdf(X_train3, means(2, :), C)*ccprob(2);
+p3 = mvnpdf(X_train3, means(3, :), C)*ccprob(3);
+
+for i = 1:size(X_train3, 1)
+   if max([p1(i) p2(i) p3(i)])==p1(i)
+       conf_matrix_train(3, 1) = conf_matrix_train(3, 1)+1;
+   elseif max([p1(i) p2(i) p3(i)])==p2(i)
+       conf_matrix_train(3, 2) = conf_matrix_train(3, 2)+1;
+   elseif max([p1(i) p2(i) p3(i)])==p3(i)
+       conf_matrix_train(3, 3) = conf_matrix_train(3, 3)+1;
+   end
+end
 
 p1 = mvnpdf(X_val1, means(1, :), C)*ccprob(1);
 p2 = mvnpdf(X_val1, means(2, :), C)*ccprob(2);
@@ -148,10 +192,12 @@ for i = 1:size(X_test3, 1)
    end
 end
 
+fprintf("Training accuracy: %f%%\n", sum(sum(diag(conf_matrix_train), 1))*100/sum(sum(conf_matrix_train, 1)));
 fprintf("Validation accuracy: %f%%\n", sum(sum(diag(conf_matrix_val), 1))*100/sum(sum(conf_matrix_val, 1)));
 fprintf("Test accuracy: %f%%\n", sum(sum(diag(conf_matrix_test), 1))*100/sum(sum(conf_matrix_test, 1)));
 
-
+disp(conf_matrix_train);
+disp(conf_matrix_test);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 C1 = cov_matrix(X_train1);
@@ -164,6 +210,7 @@ C3(1,2) = 0; C3(2,1) = 0;
 
 C = (C1+C2+C3)/3;
 
+conf_matrix_train = zeros(3, 3);
 conf_matrix_val = zeros(3, 3);
 conf_matrix_test = zeros(3, 3);
 
@@ -183,7 +230,7 @@ for i = 1:size(xy, 1)
    end
 end
 
-figure;
+subplot(1, 3, 2);
 decisionmap = reshape(predicted_class, image_size);
 
 imagesc(xrange,yrange,decisionmap);
@@ -196,7 +243,50 @@ X_train = [X_train1; X_train2; X_train3];
 X_label = [ones(size(X_train1,1),1); ones(size(X_train2,1),1)*2; ones(size(X_train3,1),1)*3];
 gscatter(X_train(:,1), X_train(:,2), X_label, 'rgb', 'sod');
 
+title('C_{1} = C_{2} = C_{3} = C');
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+p1 = mvnpdf(X_train1, means(1, :), C)*ccprob(1);
+p2 = mvnpdf(X_train1, means(2, :), C)*ccprob(2);
+p3 = mvnpdf(X_train1, means(3, :), C)*ccprob(3);
+
+for i = 1:size(X_train1, 1)
+   if max([p1(i) p2(i) p3(i)])==p1(i)
+       conf_matrix_train(1, 1) = conf_matrix_train(1, 1)+1;
+   elseif max([p1(i) p2(i) p3(i)])==p2(i)
+       conf_matrix_train(1, 2) = conf_matrix_train(1, 2)+1;
+   elseif max([p1(i) p2(i) p3(i)])==p3(i)
+       conf_matrix_train(1, 3) = conf_matrix_train(1, 3)+1;
+   end
+end
+
+p1 = mvnpdf(X_train2, means(1, :), C)*ccprob(1);
+p2 = mvnpdf(X_train2, means(2, :), C)*ccprob(2);
+p3 = mvnpdf(X_train2, means(3, :), C)*ccprob(3);
+
+for i = 1:size(X_train2, 1)
+   if max([p1(i) p2(i) p3(i)])==p1(i)
+       conf_matrix_train(2, 1) = conf_matrix_train(2, 1)+1;
+   elseif max([p1(i) p2(i) p3(i)])==p2(i)
+       conf_matrix_train(2, 2) = conf_matrix_train(2, 2)+1;
+   elseif max([p1(i) p2(i) p3(i)])==p3(i)
+       conf_matrix_train(2, 3) = conf_matrix_train(2, 3)+1;
+   end
+end
+
+p1 = mvnpdf(X_train3, means(1, :), C)*ccprob(1);
+p2 = mvnpdf(X_train3, means(2, :), C)*ccprob(2);
+p3 = mvnpdf(X_train3, means(3, :), C)*ccprob(3);
+
+for i = 1:size(X_train3, 1)
+   if max([p1(i) p2(i) p3(i)])==p1(i)
+       conf_matrix_train(3, 1) = conf_matrix_train(3, 1)+1;
+   elseif max([p1(i) p2(i) p3(i)])==p2(i)
+       conf_matrix_train(3, 2) = conf_matrix_train(3, 2)+1;
+   elseif max([p1(i) p2(i) p3(i)])==p3(i)
+       conf_matrix_train(3, 3) = conf_matrix_train(3, 3)+1;
+   end
+end
 
 p1 = mvnpdf(X_val1, means(1, :), C)*ccprob(1);
 p2 = mvnpdf(X_val1, means(2, :), C)*ccprob(2);
@@ -282,11 +372,16 @@ for i = 1:size(X_test3, 1)
    end
 end
 
+fprintf("Training accuracy: %f%%\n", sum(sum(diag(conf_matrix_train), 1))*100/sum(sum(conf_matrix_train, 1)));
 fprintf("Validation accuracy: %f%%\n", sum(sum(diag(conf_matrix_val), 1))*100/sum(sum(conf_matrix_val, 1)));
 fprintf("Test accuracy: %f%%\n", sum(sum(diag(conf_matrix_test), 1))*100/sum(sum(conf_matrix_test, 1)));
 
+disp(conf_matrix_train);
+disp(conf_matrix_test);
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+conf_matrix_train = zeros(3, 3);
 conf_matrix_val = zeros(3, 3);
 conf_matrix_test = zeros(3, 3);
 
@@ -306,7 +401,7 @@ for i = 1:size(xy, 1)
    end
 end
 
-figure;
+subplot(1, 3, 3);
 decisionmap = reshape(predicted_class, image_size);
 
 imagesc(xrange,yrange,decisionmap);
@@ -319,7 +414,49 @@ X_train = [X_train1; X_train2; X_train3];
 X_label = [ones(size(X_train1,1),1); ones(size(X_train2,1),1)*2; ones(size(X_train3,1),1)*3];
 gscatter(X_train(:,1), X_train(:,2), X_label, 'rgb', 'sod');
 
+title('C_{1} \neq C_{2} \neq C_{3}');
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+p1 = mvnpdf(X_train1, means(1, :), C)*ccprob(1);
+p2 = mvnpdf(X_train1, means(2, :), C)*ccprob(2);
+p3 = mvnpdf(X_train1, means(3, :), C)*ccprob(3);
+
+for i = 1:size(X_train1, 1)
+   if max([p1(i) p2(i) p3(i)])==p1(i)
+       conf_matrix_train(1, 1) = conf_matrix_train(1, 1)+1;
+   elseif max([p1(i) p2(i) p3(i)])==p2(i)
+       conf_matrix_train(1, 2) = conf_matrix_train(1, 2)+1;
+   elseif max([p1(i) p2(i) p3(i)])==p3(i)
+       conf_matrix_train(1, 3) = conf_matrix_train(1, 3)+1;
+   end
+end
+
+p1 = mvnpdf(X_train2, means(1, :), C)*ccprob(1);
+p2 = mvnpdf(X_train2, means(2, :), C)*ccprob(2);
+p3 = mvnpdf(X_train2, means(3, :), C)*ccprob(3);
+
+for i = 1:size(X_train2, 1)
+   if max([p1(i) p2(i) p3(i)])==p1(i)
+       conf_matrix_train(2, 1) = conf_matrix_train(2, 1)+1;
+   elseif max([p1(i) p2(i) p3(i)])==p2(i)
+       conf_matrix_train(2, 2) = conf_matrix_train(2, 2)+1;
+   elseif max([p1(i) p2(i) p3(i)])==p3(i)
+       conf_matrix_train(2, 3) = conf_matrix_train(2, 3)+1;
+   end
+end
+
+p1 = mvnpdf(X_train3, means(1, :), C)*ccprob(1);
+p2 = mvnpdf(X_train3, means(2, :), C)*ccprob(2);
+p3 = mvnpdf(X_train3, means(3, :), C)*ccprob(3);
+
+for i = 1:size(X_train3, 1)
+   if max([p1(i) p2(i) p3(i)])==p1(i)
+       conf_matrix_train(3, 1) = conf_matrix_train(3, 1)+1;
+   elseif max([p1(i) p2(i) p3(i)])==p2(i)
+       conf_matrix_train(3, 2) = conf_matrix_train(3, 2)+1;
+   elseif max([p1(i) p2(i) p3(i)])==p3(i)
+       conf_matrix_train(3, 3) = conf_matrix_train(3, 3)+1;
+   end
+end
 
 p1 = mvnpdf(X_val1, means(1, :), C1)*ccprob(1);
 p2 = mvnpdf(X_val1, means(2, :), C2)*ccprob(2);
@@ -405,5 +542,9 @@ for i = 1:size(X_test3, 1)
    end
 end
 
+fprintf("Training accuracy: %f%%\n", sum(sum(diag(conf_matrix_train), 1))*100/sum(sum(conf_matrix_train, 1)));
 fprintf("Validation accuracy: %f%%\n", sum(sum(diag(conf_matrix_val), 1))*100/sum(sum(conf_matrix_val, 1)));
 fprintf("Test accuracy: %f%%\n", sum(sum(diag(conf_matrix_test), 1))*100/sum(sum(conf_matrix_test, 1)));
+
+disp(conf_matrix_train);
+disp(conf_matrix_test);
