@@ -92,11 +92,11 @@ for i = val_ind1
     p1 = 0;p2 = 0;p3 = 0;p4 = 0;p5 = 0;
     
     for j = 1:size(X_1{i},1)
-         p1 = p1 - log(getKNNVolume(X_1{i}(j, :), X_train1, k));
-         p2 = p2 - log(getKNNVolume(X_1{i}(j, :), X_train2, k));
-         p3 = p3 - log(getKNNVolume(X_1{i}(j, :), X_train3, k));
-         p4 = p4 - log(getKNNVolume(X_1{i}(j, :), X_train4, k));
-         p5 = p5 - log(getKNNVolume(X_1{i}(j, :), X_train5, k));
+         p1 = p1 - log(getKNNRadius(X_1{i}(j, :), X_train1, k));
+         p2 = p2 - log(getKNNRadius(X_1{i}(j, :), X_train2, k));
+         p3 = p3 - log(getKNNRadius(X_1{i}(j, :), X_train3, k));
+         p4 = p4 - log(getKNNRadius(X_1{i}(j, :), X_train4, k));
+         p5 = p5 - log(getKNNRadius(X_1{i}(j, :), X_train5, k));
     end
     
     if max([p1 p2 p3 p4 p5])==p1
@@ -116,11 +116,11 @@ for i = val_ind2
     p1 = 0;p2 = 0;p3 = 0;p4 = 0;p5 = 0;
     
     for j = 1:size(X_2{i},1)
-         p1 = p1 - log(getKNNVolume(X_2{i}(j, :), X_train1, k));
-         p2 = p2 - log(getKNNVolume(X_2{i}(j, :), X_train2, k));
-         p3 = p3 - log(getKNNVolume(X_2{i}(j, :), X_train3, k));
-         p4 = p4 - log(getKNNVolume(X_2{i}(j, :), X_train4, k));
-         p5 = p5 - log(getKNNVolume(X_2{i}(j, :), X_train5, k));
+         p1 = p1 - log(getKNNRadius(X_2{i}(j, :), X_train1, k));
+         p2 = p2 - log(getKNNRadius(X_2{i}(j, :), X_train2, k));
+         p3 = p3 - log(getKNNRadius(X_2{i}(j, :), X_train3, k));
+         p4 = p4 - log(getKNNRadius(X_2{i}(j, :), X_train4, k));
+         p5 = p5 - log(getKNNRadius(X_2{i}(j, :), X_train5, k));
     end
     
     if max([p1 p2 p3 p4 p5])==p1
@@ -140,11 +140,11 @@ for i = val_ind3
     p1 = 0;p2 = 0;p3 = 0;p4 = 0;p5 = 0;
     
     for j = 1:size(X_3{i},1)
-         p1 = p1 - log(getKNNVolume(X_3{i}(j, :), X_train1, k));
-         p2 = p2 - log(getKNNVolume(X_3{i}(j, :), X_train2, k));
-         p3 = p3 - log(getKNNVolume(X_3{i}(j, :), X_train3, k));
-         p4 = p4 - log(getKNNVolume(X_3{i}(j, :), X_train4, k));
-         p5 = p5 - log(getKNNVolume(X_3{i}(j, :), X_train5, k));
+         p1 = p1 - log(getKNNRadius(X_3{i}(j, :), X_train1, k));
+         p2 = p2 - log(getKNNRadius(X_3{i}(j, :), X_train2, k));
+         p3 = p3 - log(getKNNRadius(X_3{i}(j, :), X_train3, k));
+         p4 = p4 - log(getKNNRadius(X_3{i}(j, :), X_train4, k));
+         p5 = p5 - log(getKNNRadius(X_3{i}(j, :), X_train5, k));
     end
     
     if max([p1 p2 p3 p4 p5])==p1
@@ -164,11 +164,11 @@ for i = val_ind4
     p1 = 0;p2 = 0;p3 = 0;p4 = 0;p5 = 0;
     
     for j = 1:size(X_4{i},1)
-         p1 = p1 - log(getKNNVolume(X_4{i}(j, :), X_train1, k));
-         p2 = p2 - log(getKNNVolume(X_4{i}(j, :), X_train2, k));
-         p3 = p3 - log(getKNNVolume(X_4{i}(j, :), X_train3, k));
-         p4 = p4 - log(getKNNVolume(X_4{i}(j, :), X_train4, k));
-         p5 = p5 - log(getKNNVolume(X_4{i}(j, :), X_train5, k));
+         p1 = p1 - log(getKNNRadius(X_4{i}(j, :), X_train1, k));
+         p2 = p2 - log(getKNNRadius(X_4{i}(j, :), X_train2, k));
+         p3 = p3 - log(getKNNRadius(X_4{i}(j, :), X_train3, k));
+         p4 = p4 - log(getKNNRadius(X_4{i}(j, :), X_train4, k));
+         p5 = p5 - log(getKNNRadius(X_4{i}(j, :), X_train5, k));
     end
     
     if max([p1 p2 p3 p4 p5])==p1
@@ -188,11 +188,11 @@ for i = val_ind5
     p1 = 0;p2 = 0;p3 = 0;p4 = 0;p5 = 0;
     
     for j = 1:size(X_5{i},1)
-         p1 = p1 - log(getKNNVolume(X_5{i}(j, :), X_train1, k));
-         p2 = p2 - log(getKNNVolume(X_5{i}(j, :), X_train2, k));
-         p3 = p3 - log(getKNNVolume(X_5{i}(j, :), X_train3, k));
-         p4 = p4 - log(getKNNVolume(X_5{i}(j, :), X_train4, k));
-         p5 = p5 - log(getKNNVolume(X_5{i}(j, :), X_train5, k));
+         p1 = p1 - log(getKNNRadius(X_5{i}(j, :), X_train1, k));
+         p2 = p2 - log(getKNNRadius(X_5{i}(j, :), X_train2, k));
+         p3 = p3 - log(getKNNRadius(X_5{i}(j, :), X_train3, k));
+         p4 = p4 - log(getKNNRadius(X_5{i}(j, :), X_train4, k));
+         p5 = p5 - log(getKNNRadius(X_5{i}(j, :), X_train5, k));
     end
     
     if max([p1 p2 p3 p4 p5])==p1
@@ -212,11 +212,11 @@ for i = test_ind1
     p1 = 0;p2 = 0;p3 = 0;p4 = 0;p5 = 0;
     
     for j = 1:size(X_1{i},1)
-         p1 = p1 - log(getKNNVolume(X_1{i}(j, :), X_train1, k));
-         p2 = p2 - log(getKNNVolume(X_1{i}(j, :), X_train2, k));
-         p3 = p3 - log(getKNNVolume(X_1{i}(j, :), X_train3, k));
-         p4 = p4 - log(getKNNVolume(X_1{i}(j, :), X_train4, k));
-         p5 = p5 - log(getKNNVolume(X_1{i}(j, :), X_train5, k));
+         p1 = p1 - log(getKNNRadius(X_1{i}(j, :), X_train1, k));
+         p2 = p2 - log(getKNNRadius(X_1{i}(j, :), X_train2, k));
+         p3 = p3 - log(getKNNRadius(X_1{i}(j, :), X_train3, k));
+         p4 = p4 - log(getKNNRadius(X_1{i}(j, :), X_train4, k));
+         p5 = p5 - log(getKNNRadius(X_1{i}(j, :), X_train5, k));
     end
     
     if max([p1 p2 p3 p4 p5])==p1
@@ -236,11 +236,11 @@ for i = test_ind2
     p1 = 0;p2 = 0;p3 = 0;p4 = 0;p5 = 0;
     
     for j = 1:size(X_2{i},1)
-         p1 = p1 - log(getKNNVolume(X_2{i}(j, :), X_train1, k));
-         p2 = p2 - log(getKNNVolume(X_2{i}(j, :), X_train2, k));
-         p3 = p3 - log(getKNNVolume(X_2{i}(j, :), X_train3, k));
-         p4 = p4 - log(getKNNVolume(X_2{i}(j, :), X_train4, k));
-         p5 = p5 - log(getKNNVolume(X_2{i}(j, :), X_train5, k));
+         p1 = p1 - log(getKNNRadius(X_2{i}(j, :), X_train1, k));
+         p2 = p2 - log(getKNNRadius(X_2{i}(j, :), X_train2, k));
+         p3 = p3 - log(getKNNRadius(X_2{i}(j, :), X_train3, k));
+         p4 = p4 - log(getKNNRadius(X_2{i}(j, :), X_train4, k));
+         p5 = p5 - log(getKNNRadius(X_2{i}(j, :), X_train5, k));
     end
     
     if max([p1 p2 p3 p4 p5])==p1
@@ -260,11 +260,11 @@ for i = test_ind3
     p1 = 0;p2 = 0;p3 = 0;p4 = 0;p5 = 0;
     
     for j = 1:size(X_3{i},1)
-         p1 = p1 - log(getKNNVolume(X_3{i}(j, :), X_train1, k));
-         p2 = p2 - log(getKNNVolume(X_3{i}(j, :), X_train2, k));
-         p3 = p3 - log(getKNNVolume(X_3{i}(j, :), X_train3, k));
-         p4 = p4 - log(getKNNVolume(X_3{i}(j, :), X_train4, k));
-         p5 = p5 - log(getKNNVolume(X_3{i}(j, :), X_train5, k));
+         p1 = p1 - log(getKNNRadius(X_3{i}(j, :), X_train1, k));
+         p2 = p2 - log(getKNNRadius(X_3{i}(j, :), X_train2, k));
+         p3 = p3 - log(getKNNRadius(X_3{i}(j, :), X_train3, k));
+         p4 = p4 - log(getKNNRadius(X_3{i}(j, :), X_train4, k));
+         p5 = p5 - log(getKNNRadius(X_3{i}(j, :), X_train5, k));
     end
     
     if max([p1 p2 p3 p4 p5])==p1
@@ -284,11 +284,11 @@ for i = test_ind4
     p1 = 0;p2 = 0;p3 = 0;p4 = 0;p5 = 0;
     
     for j = 1:size(X_4{i},1)
-         p1 = p1 - log(getKNNVolume(X_4{i}(j, :), X_train1, k));
-         p2 = p2 - log(getKNNVolume(X_4{i}(j, :), X_train2, k));
-         p3 = p3 - log(getKNNVolume(X_4{i}(j, :), X_train3, k));
-         p4 = p4 - log(getKNNVolume(X_4{i}(j, :), X_train4, k));
-         p5 = p5 - log(getKNNVolume(X_4{i}(j, :), X_train5, k));
+         p1 = p1 - log(getKNNRadius(X_4{i}(j, :), X_train1, k));
+         p2 = p2 - log(getKNNRadius(X_4{i}(j, :), X_train2, k));
+         p3 = p3 - log(getKNNRadius(X_4{i}(j, :), X_train3, k));
+         p4 = p4 - log(getKNNRadius(X_4{i}(j, :), X_train4, k));
+         p5 = p5 - log(getKNNRadius(X_4{i}(j, :), X_train5, k));
     end
     
     if max([p1 p2 p3 p4 p5])==p1
@@ -308,11 +308,11 @@ for i = test_ind5
     p1 = 0;p2 = 0;p3 = 0;p4 = 0;p5 = 0;
     
     for j = 1:size(X_5{i},1)
-         p1 = p1 - log(getKNNVolume(X_5{i}(j, :), X_train1, k));
-         p2 = p2 - log(getKNNVolume(X_5{i}(j, :), X_train2, k));
-         p3 = p3 - log(getKNNVolume(X_5{i}(j, :), X_train3, k));
-         p4 = p4 - log(getKNNVolume(X_5{i}(j, :), X_train4, k));
-         p5 = p5 - log(getKNNVolume(X_5{i}(j, :), X_train5, k));
+         p1 = p1 - log(getKNNRadius(X_5{i}(j, :), X_train1, k));
+         p2 = p2 - log(getKNNRadius(X_5{i}(j, :), X_train2, k));
+         p3 = p3 - log(getKNNRadius(X_5{i}(j, :), X_train3, k));
+         p4 = p4 - log(getKNNRadius(X_5{i}(j, :), X_train4, k));
+         p5 = p5 - log(getKNNRadius(X_5{i}(j, :), X_train5, k));
     end
     
     if max([p1 p2 p3 p4 p5])==p1
