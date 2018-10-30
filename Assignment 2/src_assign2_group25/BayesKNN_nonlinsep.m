@@ -19,7 +19,7 @@ p2 = zeros(size(X_val1, 1), 1);
 for i = 1:size(X_val1, 1)
     closest = zeros(size(X_train1, 1), 1);
     for j = 1:size(X_train1, 1)
-        closest(j) = sum((X_train1(j, :)-X_val1(i,:)).^2);
+        closest(j) = (sum((X_train1(j, :)-X_val1(i,:)).^2))^0.5;
     end
     closest = sortrows(closest, 1);
     p1(i) = k*ccprob(1)/(size(X_train1,1)*pi*(closest(k)^2));
@@ -44,7 +44,7 @@ p2 = zeros(size(X_val2, 1), 1);
 for i = 1:size(X_val2, 1)
     closest = zeros(size(X_train1, 1), 1);
     for j = 1:size(X_train1, 1)
-        closest(j) = sum((X_train1(j, :)-X_val2(i,:)).^2);
+        closest(j) = (sum((X_train1(j, :)-X_val2(i,:)).^2))^0.5;
     end
     closest = sortrows(closest, 1);
     p1(i) = k*ccprob(1)/(size(X_train1,1)*pi*(closest(k)^2));
@@ -69,7 +69,7 @@ p2 = zeros(size(X_test1, 1), 1);
 for i = 1:size(X_test1, 1)
     closest = zeros(size(X_train1, 1), 1);
     for j = 1:size(X_train1, 1)
-        closest(j) = sum((X_train1(j, :)-X_test1(i,:)).^2);
+        closest(j) = (sum((X_train1(j, :)-X_test1(i,:)).^2))^0.5;
     end
     closest = sortrows(closest, 1);
     p1(i) = k*ccprob(1)/(size(X_train1,1)*pi*(closest(k)^2));
@@ -94,7 +94,7 @@ p2 = zeros(size(X_test2, 1), 1);
 for i = 1:size(X_test2, 1)
     closest = zeros(size(X_train1, 1), 1);
     for j = 1:size(X_train1, 1)
-        closest(j) = sum((X_train1(j, :)-X_test2(i,:)).^2);
+        closest(j) = (sum((X_train1(j, :)-X_test2(i,:)).^2))^0.5;
     end
     closest = sortrows(closest, 1);
     p1(i) = k*ccprob(1)/(size(X_train1,1)*pi*(closest(k)^2));

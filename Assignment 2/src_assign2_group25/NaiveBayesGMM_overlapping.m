@@ -14,6 +14,16 @@ X_train3 = table2array(readtable('..\data_assign2_group25\datasets 1  2\datasets
 X_val3 = table2array(readtable('..\data_assign2_group25\datasets 1  2\datasets 1 _ 2\group25\overlapping\class3_val.txt'));
 X_test3 = table2array(readtable('..\data_assign2_group25\datasets 1  2\datasets 1 _ 2\group25\overlapping\class3_test.txt'));
 
+%%%Initializing plotting%%%
+xrange = [-5 15];
+yrange = [-10 10];
+inc = 0.05;
+[x, y] = meshgrid(xrange(1):inc:xrange(2), yrange(1):inc:yrange(2));
+image_size = size(x);
+xy = [x(:) y(:)];
+predicted_class = zeros(size(xy,1),1);
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 ccprob = ones(3, 1)/3;
 
 conf_matrix_val = zeros(3, 3);
@@ -22,6 +32,41 @@ conf_matrix_test = zeros(3, 3);
 [w1, mu1, C1] = trainGMM(X_train1, Q1, 1);
 [w2, mu2, C2] = trainGMM(X_train2, Q2, 1);
 [w3, mu3, C3] = trainGMM(X_train3, Q3, 1);
+
+%%%Getting points to plot%%%
+
+p1 = zeros(size(xy, 1), 1);
+p2 = zeros(size(xy, 1), 1);
+p3 = zeros(size(xy, 1), 1);
+
+for i = 1:size(xy, 1)
+   p1(i) = ccprob(1)*evalGMM(xy(i, :), w1, mu1, C1);
+   p2(i) = ccprob(2)*evalGMM(xy(i, :), w2, mu2, C2);
+   p3(i) = ccprob(3)*evalGMM(xy(i, :), w3, mu3, C3);    
+    
+   if max([p1(i) p2(i) p3(i)])==p1(i)
+       predicted_class(i) = 1;
+   elseif max([p1(i) p2(i) p3(i)])==p2(i)
+       predicted_class(i) = 2;
+   elseif max([p1(i) p2(i) p3(i)])==p3(i)
+       predicted_class(i) = 3;
+   end
+end
+
+figure;
+decisionmap = reshape(predicted_class, image_size);
+
+imagesc(xrange,yrange,decisionmap);
+hold on;
+set(gca,'ydir','normal');
+cmap = [1 0.8 0.8; 0.95 1 0.95; 0.9 0.9 1];
+colormap(cmap);
+
+X_train = [X_train1; X_train2; X_train3];
+X_label = [ones(size(X_train1,1),1); ones(size(X_train2,1),1)*2; ones(size(X_train3,1),1)*3];
+gscatter(X_train(:,1), X_train(:,2), X_label, 'rgb', 'sod');
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 p1 = zeros(size(X_val1, 1), 1);
 p2 = zeros(size(X_val1, 1), 1);

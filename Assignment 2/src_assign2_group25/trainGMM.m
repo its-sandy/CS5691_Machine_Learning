@@ -24,7 +24,7 @@ for i=1:N
 end
 
 ctr = 0;
-threshold = 1000;
+threshold = 2;
 
 while ctr==0 || abs(lhood_new-lhood_old)>threshold
     gamma = temp;
