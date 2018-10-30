@@ -1,4 +1,5 @@
 k = 10;
+batch_size = 10;
 
 n1 = 149;
 X_1 = cell(n1, 1);
@@ -91,101 +92,59 @@ X_train5 = cell2mat(X_5(train_ind5));
 fprintf("Read Class 5\n");
 
 All_train = cell(5, 1);
-All_train{1} = X_train1;
-All_train{2} = X_train2;
-All_train{3} = X_train3;
-All_train{4} = X_train4;
-All_train{5} = X_train5;
+All_train{1} = X_train1;clear X_train1;
+All_train{2} = X_train2;clear X_train2;
+All_train{3} = X_train3;clear X_train3;
+All_train{4} = X_train4;clear X_train4;
+All_train{5} = X_train5;clear X_train5;
+
+val_ind = cell(5, 1);
+val_ind{1} = val_ind1;clear val_ind1;
+val_ind{2} = val_ind2;clear val_ind2;
+val_ind{3} = val_ind3;clear val_ind3;
+val_ind{4} = val_ind4;clear val_ind4;
+val_ind{5} = val_ind5;clear val_ind5;
+
+test_ind = cell(5, 1);
+test_ind{1} = test_ind1;clear test_ind1;
+test_ind{2} = test_ind2;clear test_ind2;
+test_ind{3} = test_ind3;clear test_ind3;
+test_ind{4} = test_ind4;clear test_ind4;
+test_ind{5} = test_ind5;clear test_ind5;
+
+X = cell(5, 1);
+X{1} = X_1;clear X_1;
+X{2} = X_2;clear X_2;
+X{3} = X_3;clear X_3;
+X{4} = X_4;clear X_4;
+X{5} = X_5;clear X_5;
 
 conf_matrix_val = zeros(5, 5);
 conf_matrix_test = zeros(5, 5);
 
-pred = VaryingLengthKNN(X_1(val_ind1), All_train, k);
-for i = 1:5
-  conf_matrix_val(1,i) = conf_matrix_val(1,i) + sum(pred == i);
+for l = 1:5
+  num_batches = ceil(size(val_ind{l},2)/batch_size);
+  fprintf("Class %d Validation Data - Number of Batches = %d\n", l, num_batches);
+  for batch_no = 0 : (num_batches-1)
+    pred = VaryingLengthKNN(X{l}(val_ind{l}( (batch_no*batch_size + 1) : min(batch_no*batch_size + batch_size, size(val_ind{l},2)) )), All_train, k);
+    for i = 1:5
+      conf_matrix_val(l,i) = conf_matrix_val(l,i) + sum(pred == i);
+    end
+    fprintf("Validation Data Class %d Batch %d Done\n", l, batch_no+1);
+  end
 end
-fprintf("done val 1\n");
 
-pred = VaryingLengthKNN(X_2(val_ind2), All_train, k);
-for i = 1:5
-  conf_matrix_val(2,i) = conf_matrix_val(2,i) + sum(pred == i);
+for l = 1:5
+  num_batches = ceil(size(test_ind{l},2)/batch_size);
+  fprintf("Class %d Test Data - Number of Batches = %d\n", l, num_batches);
+  for batch_no = 0 : (num_batches-1)
+    pred = VaryingLengthKNN(X{l}(test_ind{l}( (batch_no*batch_size + 1) : min(batch_no*batch_size + batch_size, size(test_ind{l},2)) )), All_train, k);
+    for i = 1:5
+      conf_matrix_test(l,i) = conf_matrix_test(l,i) + sum(pred == i);
+    end
+    fprintf("Test Data Class %d Batch %d Done\n", l, batch_no+1);
+  end
 end
-fprintf("done val 2\n");
-
-pred = VaryingLengthKNN(X_3(val_ind3), All_train, k);
-for i = 1:5
-  conf_matrix_val(3,i) = conf_matrix_val(3,i) + sum(pred == i);
-end
-fprintf("done val 3\n");
-
-pred = VaryingLengthKNN(X_4(val_ind4), All_train, k);
-for i = 1:5
-  conf_matrix_val(4,i) = conf_matrix_val(4,i) + sum(pred == i);
-end
-fprintf("done val 4\n");
-
-pred = VaryingLengthKNN(X_5(val_ind5), All_train, k);
-for i = 1:5
-  conf_matrix_val(5,i) = conf_matrix_val(5,i) + sum(pred == i);
-end 
-fprintf("done val 5\n");
-
-%
-
-pred = VaryingLengthKNN(X_1(test_ind1), All_train, k);
-for i = 1:5
-  conf_matrix_test(1,i) = conf_matrix_test(1,i) + sum(pred == i);
-end
-fprintf("done test 1\n");
-
-pred = VaryingLengthKNN(X_2(test_ind2), All_train, k);
-for i = 1:5
-  conf_matrix_test(2,i) = conf_matrix_test(2,i) + sum(pred == i);
-end
-fprintf("done test 2\n");
-
-pred = VaryingLengthKNN(X_3(test_ind3), All_train, k);
-for i = 1:5
-  conf_matrix_test(3,i) = conf_matrix_test(3,i) + sum(pred == i);
-end
-fprintf("done test 3\n");
-
-pred = VaryingLengthKNN(X_4(test_ind4), All_train, k);
-for i = 1:5
-  conf_matrix_test(4,i) = conf_matrix_test(4,i) + sum(pred == i);
-end
-fprintf("done test 4\n");
-
-pred = VaryingLengthKNN(X_5(test_ind5), All_train, k);
-for i = 1:5
-  conf_matrix_test(5,i) = conf_matrix_test(5,i) + sum(pred == i);
-end 
-fprintf("done test 5\n");
-
-% for i = val_ind1
-%     p1 = 0;p2 = 0;p3 = 0;p4 = 0;p5 = 0;
-    
-%     for j = 1:size(X_1{i},1)
-%          p1 = p1 - log(getKNNRadius(X_1{i}(j, :), X_train1, k));
-%          p2 = p2 - log(getKNNRadius(X_1{i}(j, :), X_train2, k));
-%          p3 = p3 - log(getKNNRadius(X_1{i}(j, :), X_train3, k));
-%          p4 = p4 - log(getKNNRadius(X_1{i}(j, :), X_train4, k));
-%          p5 = p5 - log(getKNNRadius(X_1{i}(j, :), X_train5, k));
-%     end
-    
-%     if max([p1 p2 p3 p4 p5])==p1
-%        conf_matrix_val(1, 1) = conf_matrix_val(1, 1)+1;
-%     elseif max([p1 p2 p3 p4 p5])==p2
-%        conf_matrix_val(1, 2) = conf_matrix_val(1, 2)+1;
-%     elseif max([p1 p2 p3 p4 p5])==p3
-%        conf_matrix_val(1, 3) = conf_matrix_val(1, 3)+1;
-%     elseif max([p1 p2 p3 p4 p5])==p4
-%        conf_matrix_val(1, 4) = conf_matrix_val(1, 4)+1;
-%     elseif max([p1 p2 p3 p4 p5])==p5
-%        conf_matrix_val(1, 5) = conf_matrix_val(1, 5)+1;
-%     end
-% end
-
 
 fprintf("Validation accuracy: %f%%\n", sum(sum(diag(conf_matrix_val), 1))*100/sum(sum(conf_matrix_val, 1)));
 fprintf("Test accuracy: %f%%\n", sum(sum(diag(conf_matrix_test), 1))*100/sum(sum(conf_matrix_test, 1)));
