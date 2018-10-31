@@ -1,6 +1,6 @@
 Q1 = 2;
 Q2 = 2;
-Q3 = 3;
+Q3 = 2;
 
 XY = table2array(readtable(fullfile('..','data_assign2_group25','wine.data.txt')));
 

@@ -6,6 +6,7 @@ d = size(X, 2);
 [centers, covs, R] = k_means(X, Q);
 
 w = full(sum(R~=0, 2))/nnz(R);
+disp(w);
 mu = centers;
 C = covs;
 gamma = zeros(N, Q);
@@ -13,6 +14,7 @@ gamma = zeros(N, Q);
 lhood_old = 0;
 temp = zeros(N, Q);
 for i=1:Q
+   C(:, :, i) = C(:, :, i) + (1e-3)*eye(size(C(:, :, i), 1));
    if isNaive==1
        C(:, :, i) = diag(diag(C(:, :, i)));
    end
@@ -24,7 +26,7 @@ for i=1:N
 end
 
 ctr = 0;
-threshold = 2;
+threshold = 2000;
 
 while ctr==0 || abs(lhood_new-lhood_old)>threshold
     gamma = temp;

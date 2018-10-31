@@ -1,6 +1,6 @@
-Q1 = 10;
-Q2 = 10;
-Q3 = 10;
+Q1 = 2;
+Q2 = 2;
+Q3 = 2;
 
 X_train1 = table2array(readtable('..\data_assign2_group25\datasets 1  2\datasets 1 _ 2\group25\linearly_separable\class1_train.txt'));
 X_val1 = table2array(readtable('..\data_assign2_group25\datasets 1  2\datasets 1 _ 2\group25\linearly_separable\class1_val.txt'));
