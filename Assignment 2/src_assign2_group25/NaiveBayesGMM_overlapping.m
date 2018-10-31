@@ -25,6 +25,9 @@ xy = [x(:) y(:)];
 predicted_class = zeros(size(xy,1),1);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+rng('default');
+rng(1);
+
 ccprob = ones(3, 1)/3;
 
 conf_matrix_val = zeros(3, 3);
@@ -33,13 +36,31 @@ conf_matrix_test = zeros(3, 3);
 likelihood = zeros(3,50);
 
 for Q = 2:50
-  [w, mu, C, likelihood(1,Q)] = trainGMM_retLikelihood(X_train1, Q, 1);
+  fprintf("class 1 Q = %d\n",Q);
+  try
+    [w, mu, C, likelihood(1,Q)] = trainGMM_retLikelihood(X_train1, Q, 1);
+  catch
+    likelihood(1,Q) = 0;
+    fprintf("Q = %d didn't work",Q);
+  end
 end
 for Q = 2:50
-  [w, mu, C, likelihood(2,Q)] = trainGMM_retLikelihood(X_train2, Q, 1);
+  fprintf("class 2 Q = %d\n",Q);
+  try
+    [w, mu, C, likelihood(2,Q)] = trainGMM_retLikelihood(X_train2, Q, 1);
+  catch
+    likelihood(2,Q) = 0;
+    fprintf("Q = %d didn't work",Q);
+  end
 end
 for Q = 2:50
-  [w, mu, C, likelihood(3,Q)] = trainGMM_retLikelihood(X_train3, Q, 1);
+  fprintf("class 3 Q = %d\n",Q);
+  try
+    [w, mu, C, likelihood(3,Q)] = trainGMM_retLikelihood(X_train3, Q, 1);
+  catch
+    likelihood(3,Q) = 0;
+    fprintf("Q = %d didn't work",Q);
+  end
 end
 
 [w1, mu1, C1] = trainGMM(X_train1, Q1, 1);
