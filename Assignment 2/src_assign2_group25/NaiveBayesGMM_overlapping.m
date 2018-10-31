@@ -5,7 +5,7 @@ Q3 = 5;
 
 X_train1 = table2array(readtable(fullfile('..','data_assign2_group25','datasets 1  2','datasets 1 _ 2','group25','overlapping','class1_train.txt')));
 X_val1 = table2array(readtable(fullfile('..','data_assign2_group25','datasets 1  2','datasets 1 _ 2','group25','overlapping','class1_val.txt')));
-X_test1 = table2array(readtable(fullfile('..','data_assign2_group25','datasets 1  2','datasets 1 _ 2','group25','overlapping','class1_test.txt')'));
+X_test1 = table2array(readtable(fullfile('..','data_assign2_group25','datasets 1  2','datasets 1 _ 2','group25','overlapping','class1_test.txt')));
 
 X_train2 = table2array(readtable(fullfile('..','data_assign2_group25','datasets 1  2','datasets 1 _ 2','group25','overlapping','class2_train.txt')));
 X_val2 = table2array(readtable(fullfile('..','data_assign2_group25','datasets 1  2','datasets 1 _ 2','group25','overlapping','class2_val.txt')));
