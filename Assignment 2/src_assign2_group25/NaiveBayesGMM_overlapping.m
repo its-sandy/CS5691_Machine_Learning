@@ -2,17 +2,18 @@ Q1 = 5;
 Q2 = 5;
 Q3 = 5;
 
-X_train1 = table2array(readtable('..\data_assign2_group25\datasets 1  2\datasets 1 _ 2\group25\overlapping\class1_train.txt'));
-X_val1 = table2array(readtable('..\data_assign2_group25\datasets 1  2\datasets 1 _ 2\group25\overlapping\class1_val.txt'));
-X_test1 = table2array(readtable('..\data_assign2_group25\datasets 1  2\datasets 1 _ 2\group25\overlapping\class1_test.txt'));
 
-X_train2 = table2array(readtable('..\data_assign2_group25\datasets 1  2\datasets 1 _ 2\group25\overlapping\class2_train.txt'));
-X_val2 = table2array(readtable('..\data_assign2_group25\datasets 1  2\datasets 1 _ 2\group25\overlapping\class2_val.txt'));
-X_test2 = table2array(readtable('..\data_assign2_group25\datasets 1  2\datasets 1 _ 2\group25\overlapping\class2_test.txt'));
+X_train1 = table2array(readtable(fullfile('..','data_assign2_group25','datasets 1  2','datasets 1 _ 2','group25','overlapping','class1_train.txt')));
+X_val1 = table2array(readtable(fullfile('..','data_assign2_group25','datasets 1  2','datasets 1 _ 2','group25','overlapping','class1_val.txt')));
+X_test1 = table2array(readtable(fullfile('..','data_assign2_group25','datasets 1  2','datasets 1 _ 2','group25','overlapping','class1_test.txt')));
 
-X_train3 = table2array(readtable('..\data_assign2_group25\datasets 1  2\datasets 1 _ 2\group25\overlapping\class3_train.txt'));
-X_val3 = table2array(readtable('..\data_assign2_group25\datasets 1  2\datasets 1 _ 2\group25\overlapping\class3_val.txt'));
-X_test3 = table2array(readtable('..\data_assign2_group25\datasets 1  2\datasets 1 _ 2\group25\overlapping\class3_test.txt'));
+X_train2 = table2array(readtable(fullfile('..','data_assign2_group25','datasets 1  2','datasets 1 _ 2','group25','overlapping','class2_train.txt')));
+X_val2 = table2array(readtable(fullfile('..','data_assign2_group25','datasets 1  2','datasets 1 _ 2','group25','overlapping','class2_val.txt')));
+X_test2 = table2array(readtable(fullfile('..','data_assign2_group25','datasets 1  2','datasets 1 _ 2','group25','overlapping','class2_test.txt')));
+
+X_train3 = table2array(readtable(fullfile('..','data_assign2_group25','datasets 1  2','datasets 1 _ 2','group25','overlapping','class3_train.txt')));
+X_val3 = table2array(readtable(fullfile('..','data_assign2_group25','datasets 1  2','datasets 1 _ 2','group25','overlapping','class3_val.txt')));
+X_test3 = table2array(readtable(fullfile('..','data_assign2_group25','datasets 1  2','datasets 1 _ 2','group25','overlapping','class3_test.txt')));
 
 %%%Initializing plotting%%%
 xrange = [-5 15];
@@ -24,10 +25,43 @@ xy = [x(:) y(:)];
 predicted_class = zeros(size(xy,1),1);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+rng('default');
+rng(1);
+
 ccprob = ones(3, 1)/3;
 
 conf_matrix_val = zeros(3, 3);
 conf_matrix_test = zeros(3, 3);
+
+likelihood = zeros(3,50);
+
+for Q = 2:50
+  fprintf("class 1 Q = %d\n",Q);
+  try
+    [w, mu, C, likelihood(1,Q)] = trainGMM_retLikelihood(X_train1, Q, 1);
+  catch
+    likelihood(1,Q) = 0;
+    fprintf("Q = %d didn't work",Q);
+  end
+end
+for Q = 2:50
+  fprintf("class 2 Q = %d\n",Q);
+  try
+    [w, mu, C, likelihood(2,Q)] = trainGMM_retLikelihood(X_train2, Q, 1);
+  catch
+    likelihood(2,Q) = 0;
+    fprintf("Q = %d didn't work",Q);
+  end
+end
+for Q = 2:50
+  fprintf("class 3 Q = %d\n",Q);
+  try
+    [w, mu, C, likelihood(3,Q)] = trainGMM_retLikelihood(X_train3, Q, 1);
+  catch
+    likelihood(3,Q) = 0;
+    fprintf("Q = %d didn't work",Q);
+  end
+end
 
 [w1, mu1, C1] = trainGMM(X_train1, Q1, 1);
 [w2, mu2, C2] = trainGMM(X_train2, Q2, 1);

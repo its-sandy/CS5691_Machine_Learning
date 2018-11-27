@@ -119,32 +119,39 @@ X{3} = X_3;clear X_3;
 X{4} = X_4;clear X_4;
 X{5} = X_5;clear X_5;
 
-conf_matrix_val = zeros(5, 5);
-conf_matrix_test = zeros(5, 5);
+accuracies = zeros(10,2);
+for hyper = 1:4
+  k = hyper*5;
+  conf_matrix_val = zeros(5, 5);
+  conf_matrix_test = zeros(5, 5);
 
-for l = 1:5
-  num_batches = ceil(size(val_ind{l},2)/batch_size);
-  fprintf("Class %d Validation Data - Number of Batches = %d\n", l, num_batches);
-  for batch_no = 0 : (num_batches-1)
-    pred = VaryingLengthKNN(X{l}(val_ind{l}( (batch_no*batch_size + 1) : min(batch_no*batch_size + batch_size, size(val_ind{l},2)) )), All_train, k);
-    for i = 1:5
-      conf_matrix_val(l,i) = conf_matrix_val(l,i) + sum(pred == i);
+  for l = 1:5
+    num_batches = ceil(size(val_ind{l},2)/batch_size);
+    fprintf("Class %d Validation Data - Number of Batches = %d\n", l, num_batches);
+    for batch_no = 0 : (num_batches-1)
+      pred = VaryingLengthKNN(X{l}(val_ind{l}( (batch_no*batch_size + 1) : min(batch_no*batch_size + batch_size, size(val_ind{l},2)) )), All_train, k);
+      for i = 1:5
+        conf_matrix_val(l,i) = conf_matrix_val(l,i) + sum(pred == i);
+      end
+      fprintf("Validation Data Class %d Batch %d Done\n", l, batch_no+1);
     end
-    fprintf("Validation Data Class %d Batch %d Done\n", l, batch_no+1);
   end
-end
 
-for l = 1:5
-  num_batches = ceil(size(test_ind{l},2)/batch_size);
-  fprintf("Class %d Test Data - Number of Batches = %d\n", l, num_batches);
-  for batch_no = 0 : (num_batches-1)
-    pred = VaryingLengthKNN(X{l}(test_ind{l}( (batch_no*batch_size + 1) : min(batch_no*batch_size + batch_size, size(test_ind{l},2)) )), All_train, k);
-    for i = 1:5
-      conf_matrix_test(l,i) = conf_matrix_test(l,i) + sum(pred == i);
+  for l = 1:5
+    num_batches = ceil(size(test_ind{l},2)/batch_size);
+    fprintf("Class %d Test Data - Number of Batches = %d\n", l, num_batches);
+    for batch_no = 0 : (num_batches-1)
+      pred = VaryingLengthKNN(X{l}(test_ind{l}( (batch_no*batch_size + 1) : min(batch_no*batch_size + batch_size, size(test_ind{l},2)) )), All_train, k);
+      for i = 1:5
+        conf_matrix_test(l,i) = conf_matrix_test(l,i) + sum(pred == i);
+      end
+      fprintf("Test Data Class %d Batch %d Done\n", l, batch_no+1);
     end
-    fprintf("Test Data Class %d Batch %d Done\n", l, batch_no+1);
   end
-end
 
-fprintf("Validation accuracy: %f%%\n", sum(sum(diag(conf_matrix_val), 1))*100/sum(sum(conf_matrix_val, 1)));
-fprintf("Test accuracy: %f%%\n", sum(sum(diag(conf_matrix_test), 1))*100/sum(sum(conf_matrix_test, 1)));
+  fprintf("Validation accuracy (k=%d): %f%%\n", k, sum(sum(diag(conf_matrix_val), 1))*100/sum(sum(conf_matrix_val, 1)));
+  fprintf("Test accuracy (k=%d): %f%%\n", k, sum(sum(diag(conf_matrix_test), 1))*100/sum(sum(conf_matrix_test, 1)));
+  accuracies(hyper, 1) = sum(sum(diag(conf_matrix_val), 1))*100/sum(sum(conf_matrix_val, 1));
+  accuracies(hyper, 2) = sum(sum(diag(conf_matrix_test), 1))*100/sum(sum(conf_matrix_test, 1));
+end
+save('BayesKNN_2b_accuracies.mat','accuracies');
