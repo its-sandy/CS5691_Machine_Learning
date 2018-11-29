@@ -1,10 +1,10 @@
 rng(1);
 
-pg = 1; %0 for polynomial basis, 1 for Gaussian basis
+pg = 0; %0 for polynomial basis, 1 for Gaussian basis
 k = 250;  %Number of clusters for Gaussian basis
 %k = 250 seems to work well
 M = 2;  %Model complexity for polynomial basis
-eta = 5e-1; %1e-5 for poly, 5e-1 for Gaussian
+eta = 1e-5; %1e-5 for poly, 5e-1 for Gaussian
 
 files = dir('../group25_data_assign3/image_features/forest/*.jpg_color_edh_entropy');
 ctr = 1;
@@ -77,7 +77,7 @@ w = randn(3, size(phi_train1, 2));
 wold = zeros(3, size(phi_train1, 2));
 
 ctr = 0;
-num_iters = 3000;
+num_iters = 5000;
 tot = 0;
 preverror = 0;
 
@@ -97,7 +97,9 @@ while ctr<num_iters
     ctr = ctr+1;
     fprintf('Iteration %d over: %f\n', ctr, currerror);
     if currerror>preverror
-        eta = 0.99*eta;
+        eta = 0.995*eta;
+    else
+        eta = 1.001*eta;
     end
     preverror = currerror;
 end
