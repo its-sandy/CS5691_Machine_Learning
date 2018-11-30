@@ -120,3 +120,5 @@ if strcmp(file, 'linearly_separable')
     end    
 end
 conf_matrix_test = conf_matrix_test
+sumc = sum(conf_matrix_test,2);
+conf_percentage=100*(conf_matrix_test./sumc)
