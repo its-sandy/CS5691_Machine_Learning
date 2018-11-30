@@ -1,0 +1,9 @@
+function I = test_HMM(num_examples, test_file, model_file)
+%assumes each row corresponds to a data point and each column corresponds
+%to an attribute size(x) = N*d
+system(sprintf("%s %s %s",fullfile('hmm-1.04','hmm-1.04','./test_hmm'), test_file, model_file));
+in_file = fopen(fullfile('alphaout'), 'r');
+[alpha_out, ~] = fscanf(in_file, '%f', length(test_ind_a));
+fclose(in_file);
+distances = dist(X, centers');
+[~,I] = min(distances, [], 2);
