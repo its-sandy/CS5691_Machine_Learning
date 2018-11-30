@@ -1,6 +1,6 @@
 rng(1);
 
-opstr='-s 0 -t 2 -d 5 -r 1 -g 0.1 -c 1';
+opstr='-s 0 -t 1 -d 5  -r 1 -g 3 -c 1';
 %let s=0 always => C-SVM
 %-t kernel_type : set type of kernel function (default 2)
 %	0 -- linear: u'*v
@@ -62,7 +62,27 @@ X_train3 = (X_train3-minval)./rangeval;
 alltrain = [X_train1; X_train2; X_train3];
 classlb = [ones(size(X_train1,1),1);2*ones(size(X_train2,1),1);3*ones(size(X_train3,1),1)];
 model = svmtrain(classlb,alltrain,opstr);
-test = (squeeze(X_test1(1,:,:))-minval)./rangeval;
-[lb,acc,dec] = svmpredict(3*ones(36,1), test,model);
-acc
-lb'
+
+conf_matrix_test = zeros(3, 3);
+
+for i = 1:size(X_test1, 1)
+    test = (squeeze(X_test1(i,:,:))-minval)./rangeval;    
+    [lb] = svmpredict(1*ones(36,1), test,model,'-q');
+    predicted_class = mode(lb);
+    conf_matrix_test(1, predicted_class) = conf_matrix_test(1, predicted_class)+1;
+end
+for i = 1:size(X_test2, 1)
+    test = (squeeze(X_test2(i,:,:))-minval)./rangeval;    
+    [lb] = svmpredict(2*ones(36,1), test,model,'-q');
+    predicted_class = mode(lb);
+    conf_matrix_test(2, predicted_class) = conf_matrix_test(2, predicted_class)+1;
+end
+for i = 1:size(X_test3, 1)
+    test = (squeeze(X_test3(i,:,:))-minval)./rangeval;    
+    [lb] = svmpredict(3*ones(36,1), test,model,'-q');
+    predicted_class = mode(lb);
+    conf_matrix_test(3, predicted_class) = conf_matrix_test(3, predicted_class)+1;
+end
+conf_matrix_test = conf_matrix_test
+sumc = sum(conf_matrix_test,2);
+conf_percentage=100*(conf_matrix_test./sumc)

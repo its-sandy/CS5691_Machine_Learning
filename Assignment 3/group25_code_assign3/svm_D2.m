@@ -1,7 +1,7 @@
 rng(0);
 
-file = 'nonlinearly_separable'; %'linearly_separable' or 'nonlinearly_separable'
-opstr='-s 0 -t 2 -d 3 -r 1 -c 5';
+file = 'linearly_separable'; %'linearly_separable' or 'nonlinearly_separable'
+opstr='-s 0 -t 2 -d 4 -g 2 -r 1 -c 5';
 %let s=0 always => C-SVM
 %-t kernel_type : set type of kernel function (default 2)
 %	0 -- linear: u'*v
@@ -40,14 +40,15 @@ else
 end
 
 %%%Initializing plotting%%%
-xrange = [(minval(1)-0.5) (maxval(1)+0.5)];
-yrange = [(minval(2)-0.5) (maxval(2)+0.5)];
-%xrange = [0 1];
-%yrange = [0 1];
-inc = 0.01;
+%xrange = [(minval(1)-0.5) (maxval(1)+0.5)];
+%yrange = [(minval(2)-0.5) (maxval(2)+0.5)];
+xrange = [-0.1 1.1];
+yrange = [0.1 1.1];
+inc = 0.001;
 [x, y] = meshgrid(xrange(1):inc:xrange(2), yrange(1):inc:yrange(2));
 image_size = size(x);
 xy = [x(:) y(:)];
+%xy = (xy-minval)./rangeval;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 X_test1 = (X_test1-minval)./rangeval;
@@ -56,7 +57,7 @@ X_test2 = (X_test2-minval)./rangeval;
 X_val1 = (X_val1-minval)./rangeval;
 X_val2 = (X_val2-minval)./rangeval;
 
-xy = (xy-minval)./rangeval;
+
 
 if strcmp(file, 'linearly_separable')
     X_test3 = (X_test3-minval)./rangeval;
@@ -80,7 +81,7 @@ end
 
 model = svmtrain(all_train_lb,all_train,opstr);
 
-[predicted_class] = svmpredict(1*ones(size(xy,1),1), xy ,model);
+[predicted_class] = svmpredict(1*ones(size(xy,1),1), xy ,model,'-q');
 decisionmap = reshape(predicted_class, image_size);
 
 imagesc(xrange,yrange,decisionmap);
@@ -88,5 +89,28 @@ hold on;
 set(gca,'ydir','normal');
 
 colormap(cmap);
-gscatter(train_nn(:,1), train_nn(:,2), all_train_lb, 'rgb', 'sod');
-%gscatter(all_train(:,1), all_train(:,2), all_train_lb, 'rgb', 'sod');
+%gscatter(train_nn(:,1), train_nn(:,2), all_train_lb, 'rgb', 'sod');
+gscatter(all_train(:,1), all_train(:,2), all_train_lb, 'rgb', 'sod');
+
+if strcmp(file, 'linearly_separable')
+    conf_matrix_test = zeros(3, 3);
+else
+    conf_matrix_test = zeros(2, 2);
+end
+
+[predicted_class] = svmpredict(1*ones(size(X_test1,1),1), X_test1 ,model,'-q');
+for i = 1:size(conf_matrix_test,1)
+    conf_matrix_test(1,i) = sum(predicted_class==i);
+end
+
+[predicted_class] = svmpredict(2*ones(size(X_test2,1),1), X_test2 ,model,'-q');
+for i = 1:size(conf_matrix_test,1)
+    conf_matrix_test(2,i) = sum(predicted_class==i);
+end
+if strcmp(file, 'linearly_separable')
+    [predicted_class] = svmpredict(3*ones(size(X_test3,1),1), X_test3 ,model,'-q');
+    for i = 1:size(conf_matrix_test,1)
+        conf_matrix_test(3,i) = sum(predicted_class==i);
+    end    
+end
+conf_matrix_test = conf_matrix_test
