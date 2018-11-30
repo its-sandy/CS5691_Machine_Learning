@@ -54,19 +54,15 @@ perc = perceptron;
 perc.trainParam.epochs = 15000;
 perc = train(perc, Xn_train', targets_train);
 
-figure;
-plotconfusion(targets_val, perc(Xn_val'));
-figure;
-plotconfusion(targets_test, perc(Xn_test'));
-figure;
-
 %%%Getting points to plot%%%
 
 predicted_class = vec2ind(perc(xyn'));
 
 decisionmap = reshape(predicted_class, image_size);
 
+subplot(3, 3, 3);
 imagesc(xrange,yrange,decisionmap);
+title('Perceptron');
 hold on;
 set(gca,'ydir','normal');
 
@@ -75,3 +71,8 @@ cmap = [1 0.8 0.8; 0.95 1 0.95; 0.9 0.9 1];
 colormap(cmap);
 gscatter(X_train(:,1), X_train(:,2), X_label, 'rgb', 'sod');
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+figure;
+plotconfusion(targets_val, perc(Xn_val'));
+figure;
+plotconfusion(targets_test, perc(Xn_test'));

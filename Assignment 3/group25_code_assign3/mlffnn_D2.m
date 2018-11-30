@@ -71,19 +71,15 @@ nnet = patternnet([6, 5], 'traingdm');
 nnet.trainParam.epochs = 15000;
 nnet = train(nnet, Xn_train', targets_train);
 
-figure;
-plotconfusion(targets_val, nnet(Xn_val'));
-figure;
-plotconfusion(targets_test, nnet(Xn_test'));
-figure;
-
 %%%Getting points to plot%%%
 
 predicted_class = vec2ind(nnet(xyn'));
 
 decisionmap = reshape(predicted_class, image_size);
 
+subplot(3, 3, 4);
 imagesc(xrange,yrange,decisionmap);
+title('MLFFNN');
 hold on;
 set(gca,'ydir','normal');
 
@@ -97,3 +93,8 @@ end
 colormap(cmap);
 gscatter(X_train(:,1), X_train(:,2), X_label, 'rgb', 'sod');
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+figure;
+plotconfusion(targets_val, nnet(Xn_val'));
+figure;
+plotconfusion(targets_test, nnet(Xn_test'));

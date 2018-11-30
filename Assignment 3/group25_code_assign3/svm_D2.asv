@@ -2,7 +2,7 @@ rng(0);
 c=5;
 
 file = 'linearly_separable'; %'linearly_separable' or 'nonlinearly_separable'
-opstr=sprintf('-s 0 -t 2 -d 2 -g 2 -r 1 -c %f', c);
+opstr=sprintf('-s 0 -t 1 -d 2 -g 2 -r 1 -c %f', c);
 %let s=0 always => C-SVM
 %-t kernel_type : set type of kernel function (default 2)
 %	0 -- linear: u'*v
@@ -88,9 +88,9 @@ xyn = (xy-minval)./rangeval;
 [predicted_class] = svmpredict(1*ones(size(xyn,1),1), xyn ,model,'-q');
 decisionmap = reshape(predicted_class, image_size);
 
-subplot(3, 3, 8);
+subplot(3, 3, 7);
 imagesc(xrange,yrange,decisionmap);
-title('C-SVM with Gaussian Kernel');
+title('C-SVM with Polynomial Kernel');
 hold on;
 set(gca,'ydir','normal');
 
