@@ -93,7 +93,7 @@ N_da = i;
 
 fprintf("read input\n");
 %%%%%%%%%%%%%%%%%%%%%
-[train_ind_a,~, test_ind_a] = dividerand(N_a, 0.7, 0, 0.3);
+[train_ind_a, ~, test_ind_a] = dividerand(N_a, 0.7, 0, 0.3);
 train_a = zeros(0,3);
 for i = train_ind_a
     train_a = [train_a; data_a(data_a(:,3) == i,:)];
@@ -103,7 +103,7 @@ for i = test_ind_a
     test_a = [test_a; data_a(data_a(:,3) == i,:)];
 end
 %%%%%%%%%%%%%%%%%%%%%
-[train_ind_ai, test_ind_ai] = dividerand(N_ai, 0.7, 0.3);
+[train_ind_ai, ~, test_ind_ai] = dividerand(N_ai, 0.7, 0, 0.3);
 train_ai = zeros(0,3);
 for i = train_ind_ai
     train_ai = [train_ai; data_ai(data_ai(:,3) == i,:)];
@@ -113,7 +113,7 @@ for i = test_ind_ai
     test_ai = [test_ai; data_ai(data_ai(:,3) == i,:)];
 end
 %%%%%%%%%%%%%%%%%%%%%
-[train_ind_da, test_ind_da] = dividerand(N_da, 0.7, 0.3);
+[train_ind_da, ~, test_ind_da] = dividerand(N_da, 0.7, 0, 0.3);
 train_da = zeros(0,3);
 for i = train_ind_da
     train_da = [train_da; data_da(data_da(:,3) == i,:)];
@@ -268,8 +268,8 @@ train_confusion_matrix(3,3) = test_confusion_matrix(3,3) + sum(pred_class == 3);
 
 %%%%%%%%%%%%%%%%%%%%
 fprintf("finished testing:-\n");
-fprintf("train_confusion_matric:-\n");
+fprintf("train_confusion_matrix:-\n");
 display(train_confusion_matrix);
-fprintf("test_confusion_matric:-\n");
+fprintf("test_confusion_matrix:-\n");
 display(test_confusion_matrix);
 
