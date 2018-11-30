@@ -1,6 +1,6 @@
 rng(1);
 
-opstr='-s 0 -t 1 -d 5  -r 1 -g 3 -c 1';
+opstr='-s 0 -t 1 -d 2  -r 1 -g 3 -c 1';
 %let s=0 always => C-SVM
 %-t kernel_type : set type of kernel function (default 2)
 %	0 -- linear: u'*v

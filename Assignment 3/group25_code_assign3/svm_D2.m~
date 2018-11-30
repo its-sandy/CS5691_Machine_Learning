@@ -1,7 +1,7 @@
 rng(0);
 
 file = 'linearly_separable'; %'linearly_separable' or 'nonlinearly_separable'
-opstr='-s 0 -t 1 -d 4 -g 2 -r 1 -c 5';
+opstr='-s 0 -t 2 -d 4 -g 2 -r 1 -c 5';
 %let s=0 always => C-SVM
 %-t kernel_type : set type of kernel function (default 2)
 %	0 -- linear: u'*v
@@ -94,16 +94,13 @@ gscatter(all_train(:,1), all_train(:,2), all_train_lb, 'rgb', 'sod');
 hold on;
 sv = model.SVs;
 plot(sv(:,1),sv(:,2),'ko','MarkerSize',10);
-legend('Location','northwest');
+legend('versicolor','virginica','Support Vector')
 if strcmp(file, 'linearly_separable')
     conf_matrix_test = zeros(3, 3);
-    lgd=legend('Class1','Class2','Class3','Support Vector');
 else
     conf_matrix_test = zeros(2, 2);
-    lgd=legend('Class1','Class2','Support Vector');
 end
 
- hold off;
 [predicted_class] = svmpredict(1*ones(size(X_test1,1),1), X_test1 ,model,'-q');
 for i = 1:size(conf_matrix_test,1)
     conf_matrix_test(1,i) = sum(predicted_class==i);
