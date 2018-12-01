@@ -1,4 +1,4 @@
-rng(1);
+rng(0);
 
 num_observation_symbols = 25;
 num_states = 15;
@@ -93,7 +93,7 @@ N_da = i;
 
 fprintf("read input\n");
 %%%%%%%%%%%%%%%%%%%%%
-[train_ind_a, test_ind_a] = dividerand(N_a, 0.7, 0.3);
+[train_ind_a, ~, test_ind_a] = dividerand(N_a, 0.7, 0, 0.3);
 train_a = zeros(0,3);
 for i = train_ind_a
     train_a = [train_a; data_a(data_a(:,3) == i,:)];
@@ -103,7 +103,7 @@ for i = test_ind_a
     test_a = [test_a; data_a(data_a(:,3) == i,:)];
 end
 %%%%%%%%%%%%%%%%%%%%%
-[train_ind_ai, test_ind_ai] = dividerand(N_ai, 0.7, 0.3);
+[train_ind_ai, ~, test_ind_ai] = dividerand(N_ai, 0.7, 0, 0.3);
 train_ai = zeros(0,3);
 for i = train_ind_ai
     train_ai = [train_ai; data_ai(data_ai(:,3) == i,:)];
@@ -113,7 +113,7 @@ for i = test_ind_ai
     test_ai = [test_ai; data_ai(data_ai(:,3) == i,:)];
 end
 %%%%%%%%%%%%%%%%%%%%%
-[train_ind_da, test_ind_da] = dividerand(N_da, 0.7, 0.3);
+[train_ind_da, ~, test_ind_da] = dividerand(N_da, 0.7, 0, 0.3);
 train_da = zeros(0,3);
 for i = train_ind_da
     train_da = [train_da; data_da(data_da(:,3) == i,:)];
@@ -206,6 +206,7 @@ fclose(out_file);
 fprintf("written sequences to files\n");
 %%%%%%%%%%%%%%%%%%%%%
 
+
 if ispc
     system(sprintf('bash -c \"hmm-1.04/hmm-1.04/train_hmm hmm-1.04/hmm-1.04/GeneratedSequences_1a/train_sequence_a.seq %d %d %d %f\"',seed, num_states, num_observation_symbols, min_delta_psum));
     system(sprintf('bash -c \"hmm-1.04/hmm-1.04/train_hmm hmm-1.04/hmm-1.04/GeneratedSequences_1a/train_sequence_ai.seq %d %d %d %f\"',seed, num_states, num_observation_symbols, min_delta_psum));
@@ -235,18 +236,9 @@ test_confusion_matrix(1,2) = test_confusion_matrix(1,2) + sum(pred_class == 2);
 test_confusion_matrix(1,3) = test_confusion_matrix(1,3) + sum(pred_class == 3);
 
 if ispc
-    alpha_a = test_HMM(length(test_ind_a), 'hmm-1.04/hmm-1.04/GeneratedSequences_1a/test_sequence_a.seq', 'hmm-1.04/hmm-1.04/GeneratedSequences_1a/train_sequence_a.seq.hmm');
-    alpha_ai = test_HMM(length(test_ind_a), 'hmm-1.04/hmm-1.04/GeneratedSequences_1a/test_sequence_a.seq', 'hmm-1.04/hmm-1.04/GeneratedSequences_1a/train_sequence_ai.seq.hmm');
-    alpha_da = test_HMM(length(test_ind_a), 'hmm-1.04/hmm-1.04/GeneratedSequences_1a/test_sequence_a.seq', 'hmm-1.04/hmm-1.04/GeneratedSequences_1a/train_sequence_da.seq.hmm');
-else
-    alpha_a = test_HMM(length(test_ind_a), fullfile('hmm-1.04','hmm-1.04','GeneratedSequences_1a','test_sequence_a.seq'), fullfile('hmm-1.04','hmm-1.04','GeneratedSequences_1a','train_sequence_a.seq.hmm'));
-    alpha_ai = test_HMM(length(test_ind_a), fullfile('hmm-1.04','hmm-1.04','GeneratedSequences_1a','test_sequence_a.seq'), fullfile('hmm-1.04','hmm-1.04','GeneratedSequences_1a','train_sequence_ai.seq.hmm'));
-    alpha_da = test_HMM(length(test_ind_a), fullfile('hmm-1.04','hmm-1.04','GeneratedSequences_1a','test_sequence_a.seq'), fullfile('hmm-1.04','hmm-1.04','GeneratedSequences_1a','train_sequence_da.seq.hmm'));
-end
-if ispc
-    alpha_a = test_HMM(length(test_ind_ai), fullfile('hmm-1.04','hmm-1.04','GeneratedSequences_1a','test_sequence_ai.seq'), fullfile('hmm-1.04','hmm-1.04','GeneratedSequences_1a','train_sequence_a.seq.hmm'));
-    alpha_ai = test_HMM(length(test_ind_ai), fullfile('hmm-1.04','hmm-1.04','GeneratedSequences_1a','test_sequence_ai.seq'), fullfile('hmm-1.04','hmm-1.04','GeneratedSequences_1a','train_sequence_ai.seq.hmm'));
-    alpha_da = test_HMM(length(test_ind_ai), fullfile('hmm-1.04','hmm-1.04','GeneratedSequences_1a','test_sequence_ai.seq'), fullfile('hmm-1.04','hmm-1.04','GeneratedSequences_1a','train_sequence_da.seq.hmm'));
+    alpha_a = test_HMM(length(test_ind_ai), 'hmm-1.04/hmm-1.04/GeneratedSequences_1a/test_sequence_ai.seq', 'hmm-1.04/hmm-1.04/GeneratedSequences_1a/train_sequence_a.seq.hmm');
+    alpha_ai = test_HMM(length(test_ind_ai), 'hmm-1.04/hmm-1.04/GeneratedSequences_1a/test_sequence_ai.seq', 'hmm-1.04/hmm-1.04/GeneratedSequences_1a/train_sequence_ai.seq.hmm');
+    alpha_da = test_HMM(length(test_ind_ai), 'hmm-1.04/hmm-1.04/GeneratedSequences_1a/test_sequence_ai.seq', 'hmm-1.04/hmm-1.04/GeneratedSequences_1a/train_sequence_da.seq.hmm');
 else
     alpha_a = test_HMM(length(test_ind_ai), fullfile('hmm-1.04','hmm-1.04','GeneratedSequences_1a','test_sequence_ai.seq'), fullfile('hmm-1.04','hmm-1.04','GeneratedSequences_1a','train_sequence_a.seq.hmm'));
     alpha_ai = test_HMM(length(test_ind_ai), fullfile('hmm-1.04','hmm-1.04','GeneratedSequences_1a','test_sequence_ai.seq'), fullfile('hmm-1.04','hmm-1.04','GeneratedSequences_1a','train_sequence_ai.seq.hmm'));
@@ -257,9 +249,15 @@ test_confusion_matrix(2,1) = test_confusion_matrix(2,1) + sum(pred_class == 1);
 test_confusion_matrix(2,2) = test_confusion_matrix(2,2) + sum(pred_class == 2);
 test_confusion_matrix(2,3) = test_confusion_matrix(2,3) + sum(pred_class == 3);
 
-alpha_a = test_HMM(length(test_ind_da), fullfile('hmm-1.04','hmm-1.04','GeneratedSequences_1a','test_sequence_da.seq'), fullfile('hmm-1.04','hmm-1.04','GeneratedSequences_1a','train_sequence_a.seq.hmm'));
-alpha_ai = test_HMM(length(test_ind_da), fullfile('hmm-1.04','hmm-1.04','GeneratedSequences_1a','test_sequence_da.seq'), fullfile('hmm-1.04','hmm-1.04','GeneratedSequences_1a','train_sequence_ai.seq.hmm'));
-alpha_da = test_HMM(length(test_ind_da), fullfile('hmm-1.04','hmm-1.04','GeneratedSequences_1a','test_sequence_da.seq'), fullfile('hmm-1.04','hmm-1.04','GeneratedSequences_1a','train_sequence_da.seq.hmm'));
+if ispc
+    alpha_a = test_HMM(length(test_ind_da), 'hmm-1.04/hmm-1.04/GeneratedSequences_1a/test_sequence_da.seq', 'hmm-1.04/hmm-1.04/GeneratedSequences_1a/train_sequence_a.seq.hmm');
+    alpha_ai = test_HMM(length(test_ind_da), 'hmm-1.04/hmm-1.04/GeneratedSequences_1a/test_sequence_da.seq', 'hmm-1.04/hmm-1.04/GeneratedSequences_1a/train_sequence_ai.seq.hmm');
+    alpha_da = test_HMM(length(test_ind_da), 'hmm-1.04/hmm-1.04/GeneratedSequences_1a/test_sequence_da.seq', 'hmm-1.04/hmm-1.04/GeneratedSequences_1a/train_sequence_da.seq.hmm');
+else
+    alpha_a = test_HMM(length(test_ind_da), fullfile('hmm-1.04','hmm-1.04','GeneratedSequences_1a','test_sequence_da.seq'), fullfile('hmm-1.04','hmm-1.04','GeneratedSequences_1a','train_sequence_a.seq.hmm'));
+    alpha_ai = test_HMM(length(test_ind_da), fullfile('hmm-1.04','hmm-1.04','GeneratedSequences_1a','test_sequence_da.seq'), fullfile('hmm-1.04','hmm-1.04','GeneratedSequences_1a','train_sequence_ai.seq.hmm'));
+    alpha_da = test_HMM(length(test_ind_da), fullfile('hmm-1.04','hmm-1.04','GeneratedSequences_1a','test_sequence_da.seq'), fullfile('hmm-1.04','hmm-1.04','GeneratedSequences_1a','train_sequence_da.seq.hmm'));
+end
 [~,pred_class] = max([alpha_a alpha_ai alpha_da], [], 2);
 test_confusion_matrix(3,1) = test_confusion_matrix(3,1) + sum(pred_class == 1);
 test_confusion_matrix(3,2) = test_confusion_matrix(3,2) + sum(pred_class == 2);
@@ -268,25 +266,43 @@ test_confusion_matrix(3,3) = test_confusion_matrix(3,3) + sum(pred_class == 3);
 %%%%%%%%%%%%%%%%%%%%%%
 train_confusion_matrix = zeros(3,3); % 1-a, 2-ai, 3-da ; rows correspond to actual class
 
-alpha_a = test_HMM(length(train_ind_a), fullfile('hmm-1.04','hmm-1.04','GeneratedSequences_1a','train_sequence_a.seq'), fullfile('hmm-1.04','hmm-1.04','GeneratedSequences_1a','train_sequence_a.seq.hmm'));
-alpha_ai = test_HMM(length(train_ind_a), fullfile('hmm-1.04','hmm-1.04','GeneratedSequences_1a','train_sequence_a.seq'), fullfile('hmm-1.04','hmm-1.04','GeneratedSequences_1a','train_sequence_ai.seq.hmm'));
-alpha_da = test_HMM(length(train_ind_a), fullfile('hmm-1.04','hmm-1.04','GeneratedSequences_1a','train_sequence_a.seq'), fullfile('hmm-1.04','hmm-1.04','GeneratedSequences_1a','train_sequence_da.seq.hmm'));
+if ispc
+    alpha_a = test_HMM(length(train_ind_a), 'hmm-1.04/hmm-1.04/GeneratedSequences_1a/train_sequence_a.seq', 'hmm-1.04/hmm-1.04/GeneratedSequences_1a/train_sequence_a.seq.hmm');
+    alpha_ai = test_HMM(length(train_ind_a), 'hmm-1.04/hmm-1.04/GeneratedSequences_1a/train_sequence_a.seq', 'hmm-1.04/hmm-1.04/GeneratedSequences_1a/train_sequence_ai.seq.hmm');
+    alpha_da = test_HMM(length(train_ind_a), 'hmm-1.04/hmm-1.04/GeneratedSequences_1a/train_sequence_a.seq', 'hmm-1.04/hmm-1.04/GeneratedSequences_1a/train_sequence_da.seq.hmm');
+else
+    alpha_a = test_HMM(length(train_ind_a), fullfile('hmm-1.04','hmm-1.04','GeneratedSequences_1a','train_sequence_a.seq'), fullfile('hmm-1.04','hmm-1.04','GeneratedSequences_1a','train_sequence_a.seq.hmm'));
+    alpha_ai = test_HMM(length(train_ind_a), fullfile('hmm-1.04','hmm-1.04','GeneratedSequences_1a','train_sequence_a.seq'), fullfile('hmm-1.04','hmm-1.04','GeneratedSequences_1a','train_sequence_ai.seq.hmm'));
+    alpha_da = test_HMM(length(train_ind_a), fullfile('hmm-1.04','hmm-1.04','GeneratedSequences_1a','train_sequence_a.seq'), fullfile('hmm-1.04','hmm-1.04','GeneratedSequences_1a','train_sequence_da.seq.hmm'));
+end
 [~,pred_class] = max([alpha_a alpha_ai alpha_da], [], 2);
 train_confusion_matrix(1,1) = train_confusion_matrix(1,1) + sum(pred_class == 1);
 train_confusion_matrix(1,2) = train_confusion_matrix(1,2) + sum(pred_class == 2);
 train_confusion_matrix(1,3) = train_confusion_matrix(1,3) + sum(pred_class == 3);
 
-alpha_a = test_HMM(length(train_ind_ai), fullfile('hmm-1.04','hmm-1.04','GeneratedSequences_1a','train_sequence_ai.seq'), fullfile('hmm-1.04','hmm-1.04','GeneratedSequences_1a','train_sequence_a.seq.hmm'));
-alpha_ai = test_HMM(length(train_ind_ai), fullfile('hmm-1.04','hmm-1.04','GeneratedSequences_1a','train_sequence_ai.seq'), fullfile('hmm-1.04','hmm-1.04','GeneratedSequences_1a','train_sequence_ai.seq.hmm'));
-alpha_da = test_HMM(length(train_ind_ai), fullfile('hmm-1.04','hmm-1.04','GeneratedSequences_1a','train_sequence_ai.seq'), fullfile('hmm-1.04','hmm-1.04','GeneratedSequences_1a','train_sequence_da.seq.hmm'));
+if ispc
+    alpha_a = test_HMM(length(train_ind_ai), 'hmm-1.04/hmm-1.04/GeneratedSequences_1a/train_sequence_ai.seq', 'hmm-1.04/hmm-1.04/GeneratedSequences_1a/train_sequence_a.seq.hmm');
+    alpha_ai = test_HMM(length(train_ind_ai), 'hmm-1.04/hmm-1.04/GeneratedSequences_1a/train_sequence_ai.seq', 'hmm-1.04/hmm-1.04/GeneratedSequences_1a/train_sequence_ai.seq.hmm');
+    alpha_da = test_HMM(length(train_ind_ai), 'hmm-1.04/hmm-1.04/GeneratedSequences_1a/train_sequence_ai.seq', 'hmm-1.04/hmm-1.04/GeneratedSequences_1a/train_sequence_da.seq.hmm');
+else
+    alpha_a = test_HMM(length(train_ind_ai), fullfile('hmm-1.04','hmm-1.04','GeneratedSequences_1a','train_sequence_ai.seq'), fullfile('hmm-1.04','hmm-1.04','GeneratedSequences_1a','train_sequence_a.seq.hmm'));
+    alpha_ai = test_HMM(length(train_ind_ai), fullfile('hmm-1.04','hmm-1.04','GeneratedSequences_1a','train_sequence_ai.seq'), fullfile('hmm-1.04','hmm-1.04','GeneratedSequences_1a','train_sequence_ai.seq.hmm'));
+    alpha_da = test_HMM(length(train_ind_ai), fullfile('hmm-1.04','hmm-1.04','GeneratedSequences_1a','train_sequence_ai.seq'), fullfile('hmm-1.04','hmm-1.04','GeneratedSequences_1a','train_sequence_da.seq.hmm'));
+end
 [~,pred_class] = max([alpha_a alpha_ai alpha_da], [], 2);
 train_confusion_matrix(2,1) = train_confusion_matrix(2,1) + sum(pred_class == 1);
 train_confusion_matrix(2,2) = train_confusion_matrix(2,2) + sum(pred_class == 2);
 train_confusion_matrix(2,3) = train_confusion_matrix(2,3) + sum(pred_class == 3);
 
-alpha_a = test_HMM(length(train_ind_da), fullfile('hmm-1.04','hmm-1.04','GeneratedSequences_1a','train_sequence_da.seq'), fullfile('hmm-1.04','hmm-1.04','GeneratedSequences_1a','train_sequence_a.seq.hmm'));
-alpha_ai = test_HMM(length(train_ind_da), fullfile('hmm-1.04','hmm-1.04','GeneratedSequences_1a','train_sequence_da.seq'), fullfile('hmm-1.04','hmm-1.04','GeneratedSequences_1a','train_sequence_ai.seq.hmm'));
-alpha_da = test_HMM(length(train_ind_da), fullfile('hmm-1.04','hmm-1.04','GeneratedSequences_1a','train_sequence_da.seq'), fullfile('hmm-1.04','hmm-1.04','GeneratedSequences_1a','train_sequence_da.seq.hmm'));
+if ispc
+    alpha_a = test_HMM(length(train_ind_da), 'hmm-1.04/hmm-1.04/GeneratedSequences_1a/train_sequence_da.seq', 'hmm-1.04/hmm-1.04/GeneratedSequences_1a/train_sequence_a.seq.hmm');
+    alpha_ai = test_HMM(length(train_ind_da), 'hmm-1.04/hmm-1.04/GeneratedSequences_1a/train_sequence_da.seq', 'hmm-1.04/hmm-1.04/GeneratedSequences_1a/train_sequence_ai.seq.hmm');
+    alpha_da = test_HMM(length(train_ind_da), 'hmm-1.04/hmm-1.04/GeneratedSequences_1a/train_sequence_da.seq', 'hmm-1.04/hmm-1.04/GeneratedSequences_1a/train_sequence_da.seq.hmm');
+else
+    alpha_a = test_HMM(length(train_ind_da), fullfile('hmm-1.04','hmm-1.04','GeneratedSequences_1a','train_sequence_da.seq'), fullfile('hmm-1.04','hmm-1.04','GeneratedSequences_1a','train_sequence_a.seq.hmm'));
+    alpha_ai = test_HMM(length(train_ind_da), fullfile('hmm-1.04','hmm-1.04','GeneratedSequences_1a','train_sequence_da.seq'), fullfile('hmm-1.04','hmm-1.04','GeneratedSequences_1a','train_sequence_ai.seq.hmm'));
+    alpha_da = test_HMM(length(train_ind_da), fullfile('hmm-1.04','hmm-1.04','GeneratedSequences_1a','train_sequence_da.seq'), fullfile('hmm-1.04','hmm-1.04','GeneratedSequences_1a','train_sequence_da.seq.hmm'));
+end
 [~,pred_class] = max([alpha_a alpha_ai alpha_da], [], 2);
 train_confusion_matrix(3,1) = train_confusion_matrix(3,1) + sum(pred_class == 1);
 train_confusion_matrix(3,2) = train_confusion_matrix(3,2) + sum(pred_class == 2);
@@ -294,8 +310,8 @@ train_confusion_matrix(3,3) = test_confusion_matrix(3,3) + sum(pred_class == 3);
 
 %%%%%%%%%%%%%%%%%%%%
 fprintf("finished testing:-\n");
-fprintf("train_confusion_matric:-\n");
+fprintf("train_confusion_matrix:-\n");
 display(train_confusion_matrix);
-fprintf("test_confusion_matric:-\n");
+fprintf("test_confusion_matrix:-\n");
 display(test_confusion_matrix);
 

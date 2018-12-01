@@ -1,6 +1,6 @@
 rng(0);
 
-pg = 1; %0 for polynomial basis, 1 for Gaussian basis
+pg = 0; %0 for polynomial basis, 1 for Gaussian basis
 file = 'linearly_separable'; %'linearly_separable' or 'nonlinearly_separable'
 k = 6;  %Number of clusters for Gaussian basis
 M = 1;  %Model complexity for polynomial basis

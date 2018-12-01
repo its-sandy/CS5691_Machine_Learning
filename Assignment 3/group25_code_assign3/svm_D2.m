@@ -1,8 +1,9 @@
 rng(0);
+c=5;
 
-file = 'nonlinearly_separable'; %'linearly_separable' or 'nonlinearly_separable'
-opstr='-s 0 -t 0 -c 10';
-C = 10;
+file = 'linearly_separable'; %'linearly_separable' or 'nonlinearly_separable'
+opstr=sprintf('-s 0 -t 2 -d 2 -g 2 -r 1 -c %f', c);
+
 %let s=0 always => C-SVM
 %-t kernel_type : set type of kernel function (default 2)
 %	0 -- linear: u'*v
@@ -41,15 +42,16 @@ else
 end
 
 %%%Initializing plotting%%%
+
 %xrange = [(minval(1)-0.5) (maxval(1)+0.5)];
 %yrange = [(minval(2)-0.5) (maxval(2)+0.5)];
 xrange = [-0.1 1.1];
 yrange = [-0.1 1.1];
 inc = 0.001;
+
 [x, y] = meshgrid(xrange(1):inc:xrange(2), yrange(1):inc:yrange(2));
 image_size = size(x);
 xy = [x(:) y(:)];
-%xy = (xy-minval)./rangeval;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 X_train1n = (X_train1-minval)./rangeval;
@@ -85,43 +87,41 @@ end
 
 model = svmtrain(all_train_lb,all_train,opstr);
 
-[predicted_class_test] = svmpredict(1*ones(size(xy,1),1), xy ,model,'-q');
-decisionmap = reshape(predicted_class_test, image_size);
+xyn = (xy-minval)./rangeval;
+[predicted_class] = svmpredict(1*ones(size(xyn,1),1), xyn ,model,'-q');
+decisionmap = reshape(predicted_class, image_size);
 
-imagesc(xrange,yrange,decisionmap);
-hold on;
-set(gca,'ydir','normal');
+%subplot(3, 3, 8);
+%imagesc(xrange,yrange,decisionmap);
+%title('C-SVM with Gaussian Kernel');
+%hold on;
+%set(gca,'ydir','normal');
 
+X_train = [X_train1; X_train2; X_train3];
 colormap(cmap);
 %gscatter(train_nn(:,1), train_nn(:,2), all_train_lb, 'rgb', 'sod');
-gscatter(all_train(:,1), all_train(:,2), all_train_lb, 'rgb', 'sod');
+gscatter(X_train(:,1), X_train(:,2), all_train_lb, 'rgb', 'sod');
 hold on;
 sv = full(model.SVs);
-svb = zeros(0,2);
-svf = zeros(0,2);
-coeff = model.sv_coef;
-for  i = 1: size(sv,1)
-    if abs(coeff(i)) > 0.9*C 
-        svb =[svb;sv(i,:)];
-    else
-        svf =[svf;sv(i,:)];
-    end
-end
-plot(svf(:,1),svf(:,2),'ko','MarkerFaceColor',[1 1 1],'MarkerSize',8);
-plot(svb(:,1),svb(:,2),'kd','MarkerFaceColor',[1 1 1],'MarkerSize',8);
-legend('Location','northwest');
+coefs = model.sv_coef;
+bsv = ((sv(abs(sum(coefs, 2))'==c, :)).*rangeval)+minval;
+usv = (sv(abs(sum(coefs, 2))'~=c, :).*rangeval)+minval;
+plot(usv(:,1),usv(:,2),'ko','MarkerSize',10);
+plot(bsv(:,1),bsv(:,2),'ks','MarkerSize',10);
+%legend('Location','northwest');
 if strcmp(file, 'linearly_separable')
     conf_matrix_test = zeros(3, 3);
     conf_matrix_train = zeros(3, 3);
     conf_matrix_val = zeros(3, 3);
-    lgd=legend('Class1','Class2','Class3','Bounded SV','Unbounded SV');
+    lgd=legend('Class1','Class2','Class3','Unbounded Support Vector','Bounded Support Vector');
 else
     conf_matrix_test = zeros(2, 2);
     conf_matrix_train = zeros(2, 2);
     conf_matrix_val = zeros(2, 2);
-    lgd=legend('Class1','Class2','Bounded SV','Unbounded SV');
+    lgd=legend('Class1','Class2','Unbounded Support Vector','Bounded Support Vector');
 end
-
+lgd.FontSize = 15;
+set(lgd, 'Position', [0.8,0.5,0,0]);
  hold off;
 [predicted_class_test] = svmpredict(1*ones(size(X_test1,1),1), X_test1 ,model,'-q');
 [predicted_class_train] = svmpredict(1*ones(size(X_train1n,1),1), X_train1n ,model,'-q');
