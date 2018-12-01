@@ -102,27 +102,27 @@ for dig = 1:l
 end
 
 %%%%%%%%%%%%%%%
-%finding value for 949
+%finding value for 
 % 
-n = num_feature_vectors;
-index_matrix = zeros(n);
-tot = 0;
-for i1 = 1:n
-    for i2 = i1:n
-        tot = tot+1;
-        index_matrix(i1,i2) = tot;
-    end
-end
-
-best_alpha = -inf;
-for i1 = 1:n-2
-    for i2 = i1+1:n-1
-        val = alpha_9(index_matrix(1,i1)) + alpha_4(index_matrix(i1+1,i2)) + alpha_9(index_matrix(i2+1,n));
-        if val > best_alpha
-            best_alpha = val;
-        end
-    end
-end
-fprintf("alpha for 949 = %f\n",best_alpha);
+% n = num_feature_vectors;
+% index_matrix = zeros(n);
+% tot = 0;
+% for i1 = 1:n
+%     for i2 = i1:n
+%         tot = tot+1;
+%         index_matrix(i1,i2) = tot;
+%     end
+% end
+% 
+% best_alpha = -inf;
+% for i1 = 1:n-2
+%     for i2 = i1+1:n-1
+%         val = alpha_4(index_matrix(1,i1)) + alpha_9(index_matrix(i1+1,i2)) + alpha_o(index_matrix(i2+1,n));
+%         if val > best_alpha
+%             best_alpha = val;
+%         end
+%     end
+% end
+% fprintf("alpha for 49o = %f\n",best_alpha);
 
 %%%%%%%%%%%%%%%%%%%%
