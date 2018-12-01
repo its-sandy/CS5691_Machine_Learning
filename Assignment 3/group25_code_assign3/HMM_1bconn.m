@@ -58,6 +58,16 @@ for i1 = 1:size(conn_sequence,1)-2
     end
 end
 
+best3 = best;
+strbest3 = strbest;
+i1best3 = i1best;
+i2best3 = i2best;
+%%%%%%%%%%%%%%%%
+best = -inf;
+i1best = -1;
+i2best = -1;
+strbest = '';
+
 tot = 0;
 out_file = fopen(fullfile('hmm-1.04','hmm-1.04','GeneratedSequences_1b','conn_sequence.seq'), 'w');
 for i1 = 1:size(conn_sequence,1)-1
@@ -87,4 +97,11 @@ for i1 = 1:size(conn_sequence,1)-1
     ctr = ctr+2;
 end
 
-fprintf('Best string is %d, %d: %s (%f)\n', i1best, i2best, strbest, best);
+best2 = best;
+strbest2 = strbest;
+i1best2 = i1best;
+i2best2 = i2best;
+
+% fprintf('Best string is %d, %d: %s (%f)\n', i1best, i2best, strbest, best);
+fprintf('Best 2 digit string is %d, %d: %s (%f)\n', i1best2, i2best2, strbest2, best2);
+fprintf('Best 3 digit string is %d, %d: %s (%f)\n', i1best3, i2best3, strbest3, best3);
