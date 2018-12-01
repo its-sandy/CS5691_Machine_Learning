@@ -65,7 +65,8 @@ for m = 1:size(files,1)
     cut_indices = zeros(num_feature_vectors,l);
 
     for i = 1:num_feature_vectors
-        alphas(i,1) = alpha_1dig(1,i);
+        alphas(i,1) = alpha_1dig(1,i)*i;
+%         alphas(i,1) = alpha_1dig(1,i);
         words(i,1) = word_1dig(1,i);
         cut_indices(i,1) = 1;
     end
@@ -78,7 +79,8 @@ for m = 1:size(files,1)
             for j = dig-1:i-1
 %             for j = dig-1:i-(num_feature_vectors/(dig+seeman))
 %             for j = max(i - floor(i/dig) - 15, dig-1) : min(i - floor(i/dig) + 15, i-1)
-                val = alphas(j,dig-1) + alpha_1dig(j+1,i);
+                val = alphas(j,dig-1) + alpha_1dig(j+1,i)*(i-j);
+%                 val = alphas(j,dig-1) + alpha_1dig(j+1,i)*(i-j);
                 if val > best
                     strbest = words(j,dig-1) + word_1dig(j+1,i);
                     best = val;
