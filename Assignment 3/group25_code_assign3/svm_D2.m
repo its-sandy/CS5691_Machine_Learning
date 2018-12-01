@@ -3,6 +3,7 @@ c=5;
 
 file = 'linearly_separable'; %'linearly_separable' or 'nonlinearly_separable'
 opstr=sprintf('-s 0 -t 2 -d 2 -g 2 -r 1 -c %f', c);
+
 %let s=0 always => C-SVM
 %-t kernel_type : set type of kernel function (default 2)
 %	0 -- linear: u'*v
@@ -41,19 +42,20 @@ else
 end
 
 %%%Initializing plotting%%%
-xrange = [-5 20];
-yrange = [-15 20];
 
-if strcmp(file, 'nonlinearly_separable')
-    xrange = [-2 3];
-    yrange = [-2 2];
-end
+%xrange = [(minval(1)-0.5) (maxval(1)+0.5)];
+%yrange = [(minval(2)-0.5) (maxval(2)+0.5)];
+xrange = [-0.1 1.1];
+yrange = [-0.1 1.1];
+inc = 0.001;
 
-inc = 0.01;
 [x, y] = meshgrid(xrange(1):inc:xrange(2), yrange(1):inc:yrange(2));
 image_size = size(x);
 xy = [x(:) y(:)];
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+X_train1n = (X_train1-minval)./rangeval;
+X_train2n = (X_train2-minval)./rangeval;
 
 X_test1 = (X_test1-minval)./rangeval;
 X_test2 = (X_test2-minval)./rangeval;
@@ -66,7 +68,7 @@ X_val2 = (X_val2-minval)./rangeval;
 if strcmp(file, 'linearly_separable')
     X_test3 = (X_test3-minval)./rangeval;
     X_val3 = (X_val3-minval)./rangeval;
-    
+    X_train3n = (X_train3-minval)./rangeval;
     
     all_train = ([X_train1; X_train2; X_train3]-minval)./rangeval;
     all_test = [X_test1; X_test2;X_test3];
@@ -84,15 +86,16 @@ else
 end
 
 model = svmtrain(all_train_lb,all_train,opstr);
+
 xyn = (xy-minval)./rangeval;
 [predicted_class] = svmpredict(1*ones(size(xyn,1),1), xyn ,model,'-q');
 decisionmap = reshape(predicted_class, image_size);
 
-subplot(3, 3, 8);
-imagesc(xrange,yrange,decisionmap);
-title('C-SVM with Gaussian Kernel');
-hold on;
-set(gca,'ydir','normal');
+%subplot(3, 3, 8);
+%imagesc(xrange,yrange,decisionmap);
+%title('C-SVM with Gaussian Kernel');
+%hold on;
+%set(gca,'ydir','normal');
 
 X_train = [X_train1; X_train2; X_train3];
 colormap(cmap);
@@ -108,29 +111,67 @@ plot(bsv(:,1),bsv(:,2),'ks','MarkerSize',10);
 %legend('Location','northwest');
 if strcmp(file, 'linearly_separable')
     conf_matrix_test = zeros(3, 3);
+    conf_matrix_train = zeros(3, 3);
+    conf_matrix_val = zeros(3, 3);
     lgd=legend('Class1','Class2','Class3','Unbounded Support Vector','Bounded Support Vector');
 else
     conf_matrix_test = zeros(2, 2);
+    conf_matrix_train = zeros(2, 2);
+    conf_matrix_val = zeros(2, 2);
     lgd=legend('Class1','Class2','Unbounded Support Vector','Bounded Support Vector');
 end
 lgd.FontSize = 15;
 set(lgd, 'Position', [0.8,0.5,0,0]);
  hold off;
-[predicted_class] = svmpredict(1*ones(size(X_test1,1),1), X_test1 ,model,'-q');
+[predicted_class_test] = svmpredict(1*ones(size(X_test1,1),1), X_test1 ,model,'-q');
+[predicted_class_train] = svmpredict(1*ones(size(X_train1n,1),1), X_train1n ,model,'-q');
+[predicted_class_val] = svmpredict(1*ones(size(X_val1,1),1), X_val1 ,model,'-q');
 for i = 1:size(conf_matrix_test,1)
-    conf_matrix_test(1,i) = sum(predicted_class==i);
+    conf_matrix_test(1,i) = sum(predicted_class_test==i);
+    conf_matrix_train(1,i) = sum(predicted_class_train==i);
+    conf_matrix_val(1,i) = sum(predicted_class_val==i);
 end
 
-[predicted_class] = svmpredict(2*ones(size(X_test2,1),1), X_test2 ,model,'-q');
+[predicted_class_test] = svmpredict(2*ones(size(X_test2,1),1), X_test2 ,model,'-q');
+[predicted_class_train] = svmpredict(2*ones(size(X_train2n,1),1), X_train2n ,model,'-q');
+[predicted_class_val] = svmpredict(2*ones(size(X_val2,1),1), X_val2 ,model,'-q');
 for i = 1:size(conf_matrix_test,1)
-    conf_matrix_test(2,i) = sum(predicted_class==i);
+    conf_matrix_test(2,i) = sum(predicted_class_test==i);
+    conf_matrix_train(2,i) = sum(predicted_class_train==i);
+    conf_matrix_val(2,i) = sum(predicted_class_val==i);
 end
 if strcmp(file, 'linearly_separable')
-    [predicted_class] = svmpredict(3*ones(size(X_test3,1),1), X_test3 ,model,'-q');
+    [predicted_class_test] = svmpredict(3*ones(size(X_test3,1),1), X_test3 ,model,'-q');
+    [predicted_class_train] = svmpredict(3*ones(size(X_train3n,1),1), X_train3n ,model,'-q');
+    [predicted_class_val] = svmpredict(3*ones(size(X_val3,1),1), X_val3 ,model,'-q');
     for i = 1:size(conf_matrix_test,1)
-        conf_matrix_test(3,i) = sum(predicted_class==i);
+        conf_matrix_test(3,i) = sum(predicted_class_test==i);
+        conf_matrix_train(3,i) = sum(predicted_class_train==i);
+        conf_matrix_val(3,i) = sum(predicted_class_val==i);
     end    
 end
+
+conf_matrix_train = conf_matrix_train
+sumc = sum(conf_matrix_train,2);
+conf_percentage_train=100*(conf_matrix_train./sumc)
+
 conf_matrix_test = conf_matrix_test
 sumc = sum(conf_matrix_test,2);
-conf_percentage=100*(conf_matrix_test./sumc)
+conf_percentage_test=100*(conf_matrix_test./sumc)
+
+conf_matrix_val = conf_matrix_val
+sumc = sum(conf_matrix_val,2);
+conf_percentage_val=100*(conf_matrix_val./sumc)
+
+succ = [trace(conf_percentage_train) trace(conf_percentage_test) trace(conf_percentage_val)]/size(conf_percentage_train,1)
+
+conf_matrix_train = reshape(conf_matrix_train,1,[]);
+conf_percentage_train = reshape(conf_percentage_train,1,[]);
+
+conf_matrix_test = reshape(conf_matrix_test,1,[]);
+conf_percentage_test = reshape(conf_percentage_test,1,[]);
+
+conf_matrix_val = reshape(conf_matrix_val,1,[]);
+conf_percentage_val = reshape(conf_percentage_val,1,[]);
+
+
