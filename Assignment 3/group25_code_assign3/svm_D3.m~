@@ -128,15 +128,15 @@ end
 
 conf_matrix_train = conf_matrix_train 
 sumc = sum(conf_matrix_train,2);
-conf_percentage_train=100*(conf_matrix_train./sumc)
+conf_percentage_train=100*(conf_matrix_train./sumc);
 
-conf_matrix_test =conf_matrix_test
+conf_matrix_test =conf_matrix_t
 sumc = sum(conf_matrix_test,2);
-conf_percentage_test=100*(conf_matrix_test./sumc)
+conf_percentage_test=100*(conf_matrix_test./sumc);
 
-conf_matrix_val = conf_matrix_val
+
 sumc = sum(conf_matrix_val,2);
-conf_percentage_val=100*(conf_matrix_val./sumc)
+conf_percentage_val=100*(conf_matrix_val./sumc);
 
 conf_matrix_train = reshape(conf_matrix_train,1,[]);
 conf_percentage_train = reshape(conf_percentage_train,1,[]);
