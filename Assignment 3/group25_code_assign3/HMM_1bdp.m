@@ -114,15 +114,20 @@ for i1 = 1:n
     end
 end
 
+cut1 = 0;
+cut2 = 0;
 best_alpha = -inf;
 for i1 = 1:n-2
     for i2 = i1+1:n-1
         val = alpha_9(index_matrix(1,i1)) + alpha_4(index_matrix(i1+1,i2)) + alpha_9(index_matrix(i2+1,n));
         if val > best_alpha
             best_alpha = val;
+            cut1 = i1+1;
+            cut2 = i2+1;
         end
     end
 end
-fprintf("alpha for 949 = %f\n",best_alpha);
+fprintf("alpha for 949 = %f. cut indices = %d %d\n",best_alpha, cut1, cut2);
+fprintf("best word with cuts at %d, %d = %s\n", cut1, cut2, word_1dig(1,cut1-1)+word_1dig(cut1,cut2-1)+word_1dig(cut2,num_feature_vectors));
 
 %%%%%%%%%%%%%%%%%%%%
